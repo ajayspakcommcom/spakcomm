@@ -14,6 +14,7 @@ export default function Index() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({ username: '', password: '' });
+    const [showError, setShowError] = useState(false);
 
     const isValidEmail = (username: string): boolean => {
         // Simple regex for username validation
@@ -43,13 +44,12 @@ export default function Index() {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setShowError(false);
 
         if (validate()) {
             console.log('Form is valid');
 
             const apiUrl = `${publicRuntimeConfig.API_URL}auth`;
-
-
 
             try {
                 const response = await fetch(apiUrl, {
@@ -58,12 +58,17 @@ export default function Index() {
                     body: JSON.stringify({ username: username, password: password }),
                 });
 
-                if (response.ok) {
+                //console.log(response);
+
+                if (response.status === 200) {
                     const data = await response.json();
                     console.log('API response:', data);
+                } else if (response.status === 401) {
+                    setShowError(true);
                 } else {
                     console.error('API error:', response.statusText);
                 }
+
             } catch (error) {
                 console.error('API call error:', error);
             }
@@ -111,6 +116,7 @@ export default function Index() {
                                 error={!!errors.password}
                                 helperText={errors.password}
                             />
+                            {showError && <p>Invalid Username and Password</p>}
                             <Button type="submit" variant="contained" color="primary" sx={{ m: 1 }}>Login</Button>
                         </Box>
                     </CardContent>
