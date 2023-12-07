@@ -1,61 +1,50 @@
-import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import Toast from 'react-bootstrap/Toast';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Switch from '@mui/material/Switch';
+import Paper from '@mui/material/Paper';
+import Grow from '@mui/material/Grow';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
+const icon = (
+    <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>
+        <svg>
+            <Box
+                component="polygon"
+                points="0,100 50,00, 100,100"
+                sx={{
+                    fill: (theme) => theme.palette.common.white,
+                    stroke: (theme) => theme.palette.divider,
+                    strokeWidth: 1,
+                }}
+            />
+        </svg>
+    </Paper>
+);
 
-const Index = () => {
+export default function SimpleGrow() {
+    const [checked, setChecked] = React.useState(false);
 
-    const [showA, setShowA] = useState(true);
-    const [showB, setShowB] = useState(true);
-
-    const toggleShowA = () => setShowA(!showA);
-    const toggleShowB = () => setShowB(!showB);
-
-
+    const handleChange = () => {
+        setChecked((prev) => !prev);
+    };
 
     return (
-        <>
-            <Row>
-                <Col md={6} className="mb-2">
-                    <Button onClick={toggleShowA} className="mb-2">
-                        Toggle Toast <strong>with</strong> Animation
-                    </Button>
-                    <Toast show={showA} onClose={toggleShowA}>
-                        <Toast.Header>
-                            <img
-                                src="holder.js/20x20?text=%20"
-                                className="rounded me-2"
-                                alt=""
-                            />
-                            <strong className="me-auto">Bootstrap</strong>
-                            <small>11 mins ago</small>
-                        </Toast.Header>
-                        <Toast.Body>Woohoo, you're reading this text in a Toast!</Toast.Body>
-                    </Toast>
-                </Col>
-                <Col md={6} className="mb-2">
-                    <Button onClick={toggleShowB} className="mb-2">
-                        Toggle Toast <strong>without</strong> Animation
-                    </Button>
-                    <Toast onClose={toggleShowB} show={showB} animation={false}>
-                        <Toast.Header>
-                            <img
-                                src="holder.js/20x20?text=%20"
-                                className="rounded me-2"
-                                alt=""
-                            />
-                            <strong className="me-auto">Bootstrap</strong>
-                            <small>11 mins ago</small>
-                        </Toast.Header>
-                        <Toast.Body>Woohoo, you're reading this text in a Toast!</Toast.Body>
-                    </Toast>
-                </Col>
-            </Row>
-        </>
+        <Box sx={{ height: 180 }}>
+            <FormControlLabel
+                control={<Switch checked={checked} onChange={handleChange} />}
+                label="Show"
+            />
+            <Box sx={{ display: 'flex' }}>
+                <Grow in={checked}>{icon}</Grow>
+                {/* Conditionally applies the timeout prop to change the entry speed. */}
+                <Grow
+                    in={checked}
+                    style={{ transformOrigin: '0 0 0' }}
+                    {...(checked ? { timeout: 1000 } : {})}
+                >
+                    {icon}
+                </Grow>
+            </Box>
+        </Box>
     );
-
-};
-
-export default Index;
+}

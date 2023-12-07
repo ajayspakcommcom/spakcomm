@@ -1,0 +1,39 @@
+{
+  "products": [
+    {
+      "id": "P1001",
+      "name": "Smartphone X12",
+      "price": 799.99,
+      "category": "Electronics",
+      "description": "A high-end smartphone with a large display and superior camera."
+    },
+    {
+      "id": "P1002",
+      "name": "UltraHD 4K Television",
+      "price": 1200.00,
+      "category": "Electronics",
+      "description": "A 65-inch 4K TV with HDR support and smart features."
+    },
+    {
+      "id": "P1003",
+      "name": "Bluetooth Headphones",
+      "price": 150.00,
+      "category": "Accessories",
+      "description": "Wireless over-ear headphones with noise cancellation and 20-hour battery life."
+    },
+    {
+      "id": "P1004",
+      "name": "Running Shoes Pro",
+      "price": 100.00,
+      "category": "Sportswear",
+      "description": "Lightweight and durable running shoes with enhanced cushioning."
+    },
+    {
+      "id": "P1005",
+      "name": "Stainless Steel Water Bottle",
+      "price": 25.00,
+      "category": "Outdoor",
+      "description": "A 1-liter, insulated stainless steel water bottle, perfect for outdoor activities."
+    }
+  ]
+}

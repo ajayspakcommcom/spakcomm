@@ -3,6 +3,7 @@ import clientPromise from '../../../libs/mongodb';
 import { ObjectId } from 'mongodb';
 import { verifyToken } from '../libs/verifyToken';
 
+
 // Define a type for the user object
 type User = { id: ObjectId; name: string; age: number; };
 

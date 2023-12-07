@@ -39,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Generate a token if the user is found
     if (user) {
         const token = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET as string, { expiresIn: '2h' });
-        return res.status(200).json({ token });
+        return res.status(200).json({ token, user: user });
     } else {
         // Handle invalid credentials
         return res.status(401).json({ message: 'Invalid credentials' });
