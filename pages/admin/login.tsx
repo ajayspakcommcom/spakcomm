@@ -5,11 +5,23 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-
 import getConfig from 'next/config';
-const { publicRuntimeConfig } = getConfig();
+import { useDispatch } from 'react-redux';
+import { postLogin } from '../../redux/auth/auth-admin-slice';
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { useRouter } from 'next/router';
+
+
+
+interface ResponseType {
+    error?: any;
+    payload?: any;
+}
 
 export default function Index() {
+
+    const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+    const router = useRouter();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -42,37 +54,18 @@ export default function Index() {
         return isValid;
     };
 
+    const redirectToDashboardRoute = () => {
+        setShowError(false);
+        router.push('/admin/dashboard');
+    };
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setShowError(false);
 
         if (validate()) {
-            console.log('Form is valid');
-
-            const apiUrl = `${publicRuntimeConfig.API_URL}auth`;
-
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username: username, password: password }),
-                });
-
-                //console.log(response);
-
-                if (response.status === 200) {
-                    const data = await response.json();
-                    console.log('API response:', data);
-                } else if (response.status === 401) {
-                    setShowError(true);
-                } else {
-                    console.error('API error:', response.statusText);
-                }
-
-            } catch (error) {
-                console.error('API call error:', error);
-            }
-
+            const resp: ResponseType = await dispatch(postLogin({ username: username, password: password }));
+            resp.error ? setShowError(true) : redirectToDashboardRoute();
         } else {
             console.log('Form is invalid');
         }
