@@ -15,6 +15,9 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { logout } from '@/redux/auth/auth-admin-slice';
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { useDispatch } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -22,6 +25,8 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 export default function Index() {
 
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+    const userData = useSelector((state: RootState) => state.authAdmin);
+    const router = useRouter();
 
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -37,7 +42,9 @@ export default function Index() {
         setAnchorElNav(null);
     };
 
-    const handleCloseUserMenu = () => {
+    const handleCloseUserMenu = (link: string) => {
+        console.log(link.toLowerCase());
+        router.push(`/admin/${link.toLowerCase()}`);
         setAnchorElUser(null);
     };
 
@@ -45,6 +52,9 @@ export default function Index() {
         dispatch(logout());
     };
 
+    React.useEffect(() => {
+        console.log(userData);
+    }, [useSelector, userData]);
 
 
     return (
@@ -52,28 +62,11 @@ export default function Index() {
             <AppBar position="static">
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
-                        <Typography variant="h6" noWrap component="a" href="#app-bar-with-responsive-menu" sx={{
-                            mr: 2,
-                            display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                        >
+                        <Typography variant="h6" noWrap component="a" href="#app-bar-with-responsive-menu" sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none' }}>
                             Admin
                         </Typography>
-
                         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                            <IconButton
-                                size="large"
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleOpenNavMenu}
-                                color="inherit"
-                            >
+                            <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">
                                 <MenuIcon />
                             </IconButton>
                             <Menu id="menu-appbar" anchorEl={anchorElNav} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'left' }} open={Boolean(anchorElNav)} onClose={handleCloseNavMenu} sx={{ display: { xs: 'block', md: 'none' } }}>
@@ -85,59 +78,23 @@ export default function Index() {
                             </Menu>
                         </Box>
                         <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-                        <Typography
-                            variant="h5"
-                            noWrap
-                            component="a"
-                            href="#app-bar-with-responsive-menu"
-                            sx={{
-                                mr: 2,
-                                display: { xs: 'flex', md: 'none' },
-                                flexGrow: 1,
-                                fontFamily: 'monospace',
-                                fontWeight: 700,
-                                letterSpacing: '.3rem',
-                                color: 'inherit',
-                                textDecoration: 'none',
-                            }}
-                        >
+                        <Typography variant="h5" noWrap component="a" href="#app-bar-with-responsive-menu" sx={{ mr: 2, display: { xs: 'flex', md: 'none' }, flexGrow: 1, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none' }}>
                             LOGO
                         </Typography>
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                            {pages.map((page) => (
-                                <Button
-                                    key={page}
-                                    onClick={handleCloseNavMenu}
-                                    sx={{ my: 2, color: 'white', display: 'block' }}
-                                >
-                                    {page}
-                                </Button>
+                            {pages.map((page) => (<Button key={page} onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>{page}</Button>
                             ))}
                         </Box>
 
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                    <Avatar alt={userData.data.firstName.toUpperCase()} src="/static/images/avatar/2.jpg" />
                                 </IconButton>
                             </Tooltip>
-                            <Menu
-                                sx={{ mt: '45px' }}
-                                id="menu-appbar"
-                                anchorEl={anchorElUser}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={Boolean(anchorElUser)}
-                                onClose={handleCloseUserMenu}>
+                            <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right', }} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>
                                 {settings.map((setting) => (
-                                    <MenuItem key={setting} onClick={setting === 'Logout' ? logoutHandler : handleCloseUserMenu}>
+                                    <MenuItem key={setting} onClick={setting === 'Logout' ? logoutHandler : () => handleCloseUserMenu(setting)}>
                                         <Typography textAlign="center">{setting}</Typography>
                                     </MenuItem>
                                 ))}
