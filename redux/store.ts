@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Assuming your slice files are now TypeScript modules
 import authAdminSlice from './auth/auth-admin-slice';
+import taskAdminSlice from './task/task-admin-slice';
 
 // Define the root state type
 export type RootState = ReturnType<typeof rootReducer>;
@@ -17,7 +18,8 @@ const persistConfig: PersistConfig<RootState> = {
 };
 
 const rootReducer = combineReducers({
-    authAdmin: authAdminSlice
+    authAdmin: authAdminSlice,
+    taskAdmin: taskAdminSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

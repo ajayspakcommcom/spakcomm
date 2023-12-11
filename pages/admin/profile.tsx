@@ -25,7 +25,7 @@ export default function Index() {
     // };
 
     React.useEffect(() => {
-        console.log(userData);
+
     }, [useSelector, userData]);
 
     if (userData.token || window.localStorage.getItem('jwtToken')) {

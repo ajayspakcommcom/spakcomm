@@ -20,7 +20,7 @@ import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
 const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Task', 'Dashboard', 'Logout'];
 
 export default function Index() {
 
@@ -43,9 +43,10 @@ export default function Index() {
     };
 
     const handleCloseUserMenu = (link: string) => {
-        console.log(link.toLowerCase());
-        router.push(`/admin/${link.toLowerCase()}`);
-        setAnchorElUser(null);
+        if (typeof link === 'string') {
+            router.push(`/admin/${link.toLowerCase()}`);
+            setAnchorElUser(null);
+        }
     };
 
     const logoutHandler = () => {
@@ -53,7 +54,6 @@ export default function Index() {
     };
 
     React.useEffect(() => {
-        console.log(userData);
     }, [useSelector, userData]);
 
 

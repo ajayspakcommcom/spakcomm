@@ -400,3 +400,8 @@ body {
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
+.create-data-wrapper {
+  text-align: right !important;
+  padding: 15px 0;
+}
