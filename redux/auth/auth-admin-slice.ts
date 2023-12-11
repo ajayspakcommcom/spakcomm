@@ -43,11 +43,12 @@ const authAdminSlice = createSlice({
             //state.data.token = action.payload;
         },
         logout: (state) => {
-            state.token = '';
-            state.data = '';
-            localStorage.removeItem('jwtToken');
-            localStorage.removeItem('userData');
-        },
+            console.log('logout');
+            //state.token = '';
+            //state.data = '';
+            // localStorage.removeItem('jwtToken');
+            // localStorage.removeItem('userData');
+        }
     },
     extraReducers: (builder) => {
         builder

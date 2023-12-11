@@ -49,12 +49,15 @@ export default function Index() {
         }
     };
 
-    const logoutHandler = () => {
-        dispatch(logout());
+    const logoutHandler = async () => {
+        const resp = await dispatch(logout());
+        console.log(userData);
+        //router.push('/admin/login');
     };
 
     React.useEffect(() => {
-    }, [useSelector, userData]);
+
+    }, []);
 
 
     return (
