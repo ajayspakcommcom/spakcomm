@@ -9,16 +9,14 @@ const { publicRuntimeConfig } = getConfig();
 interface DataState {
     data: any | null;
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
-    error: string;
-    token: string;
+    error: string
 }
 
 // Define an initial state
 const initialState: DataState = {
     data: null,
     status: 'idle',
-    error: '',
-    token: ''
+    error: ''
 };
 
 // Define your async thunk function
@@ -36,6 +34,22 @@ export const getTask = createAsyncThunk('get/getTasks', async (token: string) =>
     return response;
 });
 
+export const postTask = createAsyncThunk('post/postTask', async (data: { clientName: string, taskName: string, taskDescription: string, startDate: Date | null, endDate: Date | null, status: string, deadLine: string, token: string }) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${data.token}`
+        },
+    };
+
+    console.log(data);
+    console.log(`${publicRuntimeConfig.API_URL}task`);
+
+
+    const response = await axios.post(`${publicRuntimeConfig.API_URL}task`, JSON.stringify(data), config);
+    return response;
+});
+
 // Create a slice
 const taskAdminSlice = createSlice({
     name: 'adminTask',
@@ -45,10 +59,7 @@ const taskAdminSlice = createSlice({
             //state.data.token = action.payload;
         },
         logout: (state) => {
-            state.token = '';
             state.data = '';
-            localStorage.removeItem('jwtToken');
-            localStorage.removeItem('userData');
         }
     },
     extraReducers: (builder) => {
@@ -58,14 +69,20 @@ const taskAdminSlice = createSlice({
             })
             .addCase(getTask.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.token = action.payload.data.token;
-                state.data = action.payload.data.user;
-                localStorage.setItem('jwtToken', state.token);
-                localStorage.setItem('userData', JSON.stringify(state.data));
             })
             .addCase(getTask.rejected, (state, action) => {
                 state.status = 'failed';
-                state.token = '';
+            })
+            // Task Post
+            .addCase(postTask.pending, (state, action) => {
+                state.status = 'loading';
+            })
+            .addCase(postTask.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.data = action.payload.data.user;
+            })
+            .addCase(postTask.rejected, (state, action) => {
+                state.status = 'failed';
                 state.data = '';
             });
     },

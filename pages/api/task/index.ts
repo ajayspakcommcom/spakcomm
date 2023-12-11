@@ -8,6 +8,7 @@ import { verifyToken } from '../libs/verifyToken';
 
 type Task = {
   _id: ObjectId;
+  clientName: string;
   username: string;
   taskName: string;
   taskDescription: string;
@@ -15,8 +16,6 @@ type Task = {
   endDate: Date;
   status: string;
   deadLine: string;
-  timeIn: Date;
-  timeOut: Date
 };
 
 // Define a type for the API response in various cases
@@ -74,6 +73,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
       case 'POST':
         try {
+          console.log('post');
+          console.log(req.body);
           const client = await clientPromise;
           const db = client.db("user");
           const collection = db.collection<Task>("tasks");

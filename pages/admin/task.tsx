@@ -7,6 +7,7 @@ import { Container } from '@mui/material';
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { useDispatch } from 'react-redux';
 import { getTask } from '../../redux/task/task-admin-slice';
+import TaskFormModal from '../../components/admin/task-form-modal';
 
 // table
 import Table from '@mui/material/Table';
@@ -17,17 +18,17 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { formatDateToDDMMYYYY } from '@/utils/common';
-import Button from '@mui/material/Button';
 
 
-function createData(taskName: string, taskDescription: string, startDate: Date, endDate: Date, status: string, deadLine: string, timeIn: Date, timeOut: Date) {
+
+function createData(clientName: string, taskName: string, taskDescription: string, startDate: Date, endDate: Date, status: string, deadLine: string, timeIn: Date, timeOut: Date) {
     return {
-        taskName, taskDescription, startDate, endDate, status, deadLine, timeIn, timeOut
+        clientName, taskName, taskDescription, startDate, endDate, status, deadLine, timeIn, timeOut
     };
 }
 
 const rows = [
-    createData('Bi Booklet', 'Bi booklet Description', new Date('05-11-2023'), new Date('11-11-2023'), 'Done', '5', new Date('11-12-2023'), new Date('11-12-2023'))
+    createData('Bi Client', 'Bi Booklet', 'Bi booklet Description', new Date('05-11-2023'), new Date('11-11-2023'), 'Done', '5', new Date('11-12-2023'), new Date('11-12-2023'))
 ];
 
 
@@ -37,6 +38,7 @@ interface ResponseType {
 }
 
 interface Task {
+    clientName: string;
     taskName: string;
     taskDescription: string;
     startDate: Date;
@@ -52,11 +54,10 @@ export default function Index() {
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
     const userData = useSelector((state: RootState) => state.authAdmin);
     const router = useRouter();
+    const [toggle, setToggle] = useState<Boolean>(false);
 
     const [tasks, setTasks] = useState<Task[]>([]);
     const [error, setError] = useState('');
-
-
 
     if (!userData.token || !(window.localStorage.getItem('jwtToken'))) {
         router.push('/admin/login');
@@ -69,7 +70,6 @@ export default function Index() {
             try {
                 if (userData && userData.token) {
                     const response: ResponseType = await dispatch(getTask(userData.token));
-                    //console.log(response.payload.data);
                     setTasks(response.payload.data)
                 } else {
                     console.error('No token available');
@@ -82,8 +82,7 @@ export default function Index() {
 
         fetchData();
 
-    }, []);
-
+    }, [toggle]);
 
 
     if (userData.token || window.localStorage.getItem('jwtToken')) {
@@ -92,40 +91,37 @@ export default function Index() {
                 <Header />
 
                 <Container component="main">
-                    <div className='create-data-wrapper'>
-                        <Button variant="contained" color="success">Success</Button>
-                    </div>
+                    <TaskFormModal onClick={() => setToggle(!toggle)} />
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 800 }} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                    {/* Update table headers according to your data */}
+                                    <TableCell>Client Name</TableCell>
                                     <TableCell>Task Name</TableCell>
                                     <TableCell align="right">Description</TableCell>
                                     <TableCell align="right">Start Date</TableCell>
                                     <TableCell align="right">End Date</TableCell>
                                     <TableCell align="right">Status</TableCell>
                                     <TableCell align="right">Deadline</TableCell>
-                                    <TableCell align="right">Time In</TableCell>
-                                    <TableCell align="right">Time Out</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {tasks.map((row, index) => (
+                                {Array.isArray(tasks) && tasks.map((row, index) => (
                                     <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                        <TableCell component="th" scope="row">{row.clientName}</TableCell>
                                         <TableCell component="th" scope="row">{row.taskName}</TableCell>
                                         <TableCell align="right">{row.taskDescription}</TableCell>
                                         <TableCell align="right">{formatDateToDDMMYYYY(row.startDate)}</TableCell>
                                         <TableCell align="right">{formatDateToDDMMYYYY(row.endDate)}</TableCell>
                                         <TableCell align="right">{row.status}</TableCell>
                                         <TableCell align="right">{row.deadLine}</TableCell>
-                                        <TableCell align="right">{formatDateToDDMMYYYY(row.timeIn)}</TableCell>
-                                        <TableCell align="right">{formatDateToDDMMYYYY(row.timeOut)}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
                     </TableContainer>
+
+
 
                 </Container>
 
