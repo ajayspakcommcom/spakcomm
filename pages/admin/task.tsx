@@ -3,11 +3,12 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useRouter } from 'next/router';
-import { Container, Modal, Box } from '@mui/material';
+import { Container, Modal, Box, Button } from '@mui/material';
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { useDispatch } from 'react-redux';
 import { getTask } from '../../redux/task/task-admin-slice';
 import TaskFormModal from '../../components/admin/task-form-modal';
+import EditIcon from '@material-ui/icons/Edit';
 
 // table
 import Table from '@mui/material/Table';
@@ -19,7 +20,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { formatDateToDDMMYYYY } from '@/utils/common';
 import Image from 'next/image';
-
 
 
 function createData(clientName: string, taskName: string, taskDescription: string, startDate: Date, endDate: Date, status: string, deadLine: string, timeIn: Date, timeOut: Date) {
@@ -51,12 +51,14 @@ interface Task {
     imageDataUrl: string;
 }
 
+
+
 export default function Index() {
 
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
     const userData = useSelector((state: RootState) => state.authAdmin);
     const router = useRouter();
-    const [toggle, setToggle] = useState<Boolean>(false);
+    const [toggle, setToggle] = useState<boolean>(false);
 
     const [tasks, setTasks] = useState<Task[]>([]);
     const [error, setError] = useState('');
@@ -93,7 +95,13 @@ export default function Index() {
                 <Header />
 
                 <Container component="main">
-                    <TaskFormModal onClick={() => setToggle(!toggle)} />
+
+                    <div className='create-data-wrapper'>
+                        <Button variant="contained" color="success" onClick={() => setToggle(true)}>Create</Button>
+                    </div>
+
+                    {toggle && <TaskFormModal onClick={() => setToggle(!toggle)} />}
+
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 800 }} aria-label="simple table">
                             <TableHead>
@@ -120,11 +128,15 @@ export default function Index() {
                                         <TableCell align="right">{row.status}</TableCell>
                                         <TableCell align="right">{row.deadLine}</TableCell>
                                         <TableCell align="right">
-                                            {row.imageDataUrl && <a href={row.imageDataUrl} target="_blank">
-                                                <img src={row.imageDataUrl} alt="Description of the image" width={50} height={50} />
-                                            </a>}
+                                            {row.imageDataUrl
+                                                && <a href={row.imageDataUrl} target="_blank">
+                                                    <img src={row.imageDataUrl} alt="Description of the image" width={50} height={50} />
+                                                </a>
+                                            }
                                         </TableCell>
-                                        <TableCell align="right">{'Edit'}</TableCell>
+                                        <TableCell align="right">
+                                            <EditIcon className='pointer' />
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>

@@ -405,3 +405,7 @@ body {
   text-align: right !important;
   padding: 15px 0;
 }
+
+.pointer {
+  cursor: pointer;
+}

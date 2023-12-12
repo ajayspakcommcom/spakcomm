@@ -64,8 +64,6 @@ const VisuallyHiddenInput = styled('input')({
 
 const Index: React.FC<componentProps> = ({ onClick }) => {
 
-    const [open, setOpen] = useState(false);
-
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
     const userData = useSelector((state: RootState) => state.authAdmin);
 
@@ -145,9 +143,6 @@ const Index: React.FC<componentProps> = ({ onClick }) => {
         return isValid;
     }
 
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
     const formHandler = () => {
         validate();
     };
@@ -168,8 +163,7 @@ const Index: React.FC<componentProps> = ({ onClick }) => {
 
 
             if (resp.payload.status === 200) {
-                setOpen(false);
-                onClick();
+                onClick()
             }
 
             resp.error ? 'Error' : 'No Error';
@@ -181,19 +175,14 @@ const Index: React.FC<componentProps> = ({ onClick }) => {
 
     return (
         <div>
-
-            <div className='create-data-wrapper'>
-                <Button variant="contained" color="success" onClick={handleOpen}>Create</Button>
-            </div>
-
-            <Modal open={open} onClose={formHandler} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+            <Modal open={true} onClose={formHandler} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
 
                 <Box sx={modalStyle}
                     component="form"
                     noValidate
                     autoComplete="off"
                     onSubmit={handleSubmit}>
-                    <IconButton onClick={handleClose} sx={{ position: 'absolute', right: 8, top: 8 }}>
+                    <IconButton onClick={onClick} sx={{ position: 'absolute', right: 8, top: 8 }}>
                         <CloseIcon />
                     </IconButton>
                     <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ mb: 3 }}>Submit Your Task</Typography>
