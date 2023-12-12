@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Box, Button, Typography, TextField, FormControl, InputLabel } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { postTask } from '../../redux/task/task-admin-slice';
@@ -31,6 +31,8 @@ const clients: ClientName[] = [
 
 interface componentProps {
     onClick: () => void;
+    isEditMode: boolean;
+    editData: Task;
 }
 
 const modalStyle = {
@@ -62,7 +64,20 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
-const Index: React.FC<componentProps> = ({ onClick }) => {
+interface Task {
+    _id: string;
+    clientName: string;
+    taskName: string;
+    taskDescription: string;
+    startDate: Date;
+    endDate: Date;
+    status: string;
+    deadLine: string;
+    imageDataUrl: string;
+    token: string;
+}
+
+const Index: React.FC<componentProps> = ({ onClick, isEditMode, editData }) => {
 
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
     const userData = useSelector((state: RootState) => state.authAdmin);
@@ -173,8 +188,26 @@ const Index: React.FC<componentProps> = ({ onClick }) => {
         }
     };
 
+    useEffect(() => {
+
+        console.log(editData);
+
+        setClientName(editData.clientName);
+        setTaskName(editData.taskName);
+        setTaskDescription(editData.taskDescription);
+        setStartDate(editData.startDate);
+        setEndDate(editData.endDate);
+        setStatus(editData.status);
+        setDeadLine(editData.deadLine);
+        setImageDataUrl(editData.imageDataUrl);
+
+    }, [isEditMode, editData]);
+
     return (
         <div>
+
+            {JSON.stringify(editData)}
+
             <Modal open={true} onClose={formHandler} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
 
                 <Box sx={modalStyle}
@@ -277,7 +310,10 @@ const Index: React.FC<componentProps> = ({ onClick }) => {
                         <br />
                         {imageDataUrl && <Image src={imageDataUrl} alt="Description of the image" width={70} height={70} />}
 
-                        <Button type="submit" variant="contained" onClick={formHandler} sx={{ mt: 4 }}>Submit</Button>
+                        <Button type="submit" variant="contained" onClick={formHandler} sx={{ mt: 4 }}>
+                            {isEditMode ? 'Edit' : 'Submit'}
+                        </Button>
+
                     </FormControl>
                 </Box>
             </Modal>

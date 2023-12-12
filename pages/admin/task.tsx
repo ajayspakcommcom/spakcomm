@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { getTask } from '../../redux/task/task-admin-slice';
 import TaskFormModal from '../../components/admin/task-form-modal';
 import EditIcon from '@material-ui/icons/Edit';
+import axios from 'axios';
 
 // table
 import Table from '@mui/material/Table';
@@ -20,6 +21,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { formatDateToDDMMYYYY } from '@/utils/common';
 import Image from 'next/image';
+import getConfig from 'next/config';
+const { publicRuntimeConfig } = getConfig();
 
 
 function createData(clientName: string, taskName: string, taskDescription: string, startDate: Date, endDate: Date, status: string, deadLine: string, timeIn: Date, timeOut: Date) {
@@ -39,6 +42,7 @@ interface ResponseType {
 }
 
 interface Task {
+    _id: string;
     clientName: string;
     taskName: string;
     taskDescription: string;
@@ -46,10 +50,11 @@ interface Task {
     endDate: Date;
     status: string;
     deadLine: string;
-    timeIn: Date;
-    timeOut: Date;
     imageDataUrl: string;
+    token: string;
 }
+
+
 
 
 
@@ -59,6 +64,8 @@ export default function Index() {
     const userData = useSelector((state: RootState) => state.authAdmin);
     const router = useRouter();
     const [toggle, setToggle] = useState<boolean>(false);
+    const [isEditForm, setIsEditForm] = useState<boolean>(false);
+    const [editData, setEditData] = useState<Task>({ _id: '', clientName: '', taskName: '', taskDescription: '', startDate: new Date(), endDate: new Date(), status: '', deadLine: '', imageDataUrl: '', token: '' });
 
     const [tasks, setTasks] = useState<Task[]>([]);
     const [error, setError] = useState('');
@@ -74,6 +81,8 @@ export default function Index() {
             try {
                 if (userData && userData.token) {
                     const response: ResponseType = await dispatch(getTask(userData.token));
+                    console.log(response);
+
                     setTasks(response.payload.data)
                 } else {
                     console.error('No token available');
@@ -88,6 +97,39 @@ export default function Index() {
 
     }, [toggle]);
 
+    const isFormEditModeHandler = (mode: boolean) => {
+        setToggle(true);
+        setIsEditForm(mode);
+    };
+
+
+    const openEditModeHandler = async (id: string) => {
+        isFormEditModeHandler(true);
+
+        console.log(`${publicRuntimeConfig.API_URL}task/${id}`);
+
+
+        try {
+            if (userData && userData.token) {
+
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${userData.token || window.localStorage.getItem('jwtToken')} `
+                    },
+                };
+
+                const response = await axios.get(`${publicRuntimeConfig.API_URL}task/${id}`, config);
+                setEditData(response.data);
+            } else {
+                console.error('No token available');
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+
+    };
+
 
     if (userData.token || window.localStorage.getItem('jwtToken')) {
         return (
@@ -96,11 +138,15 @@ export default function Index() {
 
                 <Container component="main">
 
+                    {/* <div style={{ background: 'red' }}>
+                        {JSON.stringify(editData)}
+                    </div> */}
+
                     <div className='create-data-wrapper'>
-                        <Button variant="contained" color="success" onClick={() => setToggle(true)}>Create</Button>
+                        <Button variant="contained" color="success" onClick={() => isFormEditModeHandler(false)}>Create</Button>
                     </div>
 
-                    {toggle && <TaskFormModal onClick={() => setToggle(!toggle)} />}
+                    {toggle && <TaskFormModal onClick={() => setToggle(!toggle)} isEditMode={isEditForm} editData={editData} />}
 
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 800 }} aria-label="simple table">
@@ -135,7 +181,7 @@ export default function Index() {
                                             }
                                         </TableCell>
                                         <TableCell align="right">
-                                            <EditIcon className='pointer' />
+                                            <EditIcon className='pointer' onClick={() => openEditModeHandler(row._id)} />
                                         </TableCell>
                                     </TableRow>
                                 ))}
