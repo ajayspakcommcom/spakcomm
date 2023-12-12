@@ -16,6 +16,7 @@ type Task = {
   endDate: Date;
   status: string;
   deadLine: string;
+  imageDataUrl: string;
 };
 
 // Define a type for the API response in various cases
@@ -31,42 +32,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     switch (req.method) {
       case 'GET':
-        if (req.body.getById) {
-          try {
-            const client = await clientPromise;
-            const db = client.db("user");
-            const collection = db.collection<Task>("tasks");
-            const item = await collection.findOne({ _id: new ObjectId(req.body.getById) });
-
-            if (!item) {
-              return res.status(404).json({ message: 'Item not found' });
-            }
-
-            res.status(200).json(item);
-          } catch (err) {
-            if (err instanceof Error) {
-              // Now TypeScript knows err is an Error and has a message property
-              res.status(500).json({ error: err.message });
-            } else {
-              // Handle the case where the error is not an Error object
-              res.status(500).json({ error: 'An unknown error occurred' });
-            }
-          }
-        } else {
-          try {
-            const client = await clientPromise;
-            const db = client.db("user");
-            const collection = db.collection<Task>("tasks");
-            const data = await collection.find({}).toArray();
-            res.status(200).json(data);
-          } catch (err) {
-            if (err instanceof Error) {
-              // Now TypeScript knows err is an Error and has a message property
-              res.status(500).json({ error: err.message });
-            } else {
-              // Handle the case where the error is not an Error object
-              res.status(500).json({ error: 'An unknown error occurred' });
-            }
+        try {
+          const client = await clientPromise;
+          const db = client.db("user");
+          const collection = db.collection<Task>("tasks");
+          const data = await collection.find({}).toArray();
+          res.status(200).json(data);
+        } catch (err) {
+          if (err instanceof Error) {
+            // Now TypeScript knows err is an Error and has a message property
+            res.status(500).json({ error: err.message });
+          } else {
+            // Handle the case where the error is not an Error object
+            res.status(500).json({ error: 'An unknown error occurred' });
           }
         }
         break;

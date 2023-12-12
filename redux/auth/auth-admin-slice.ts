@@ -1,6 +1,6 @@
 // dataSlice.ts
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios, { Axios } from 'axios';
 import getConfig from 'next/config';
 
 const { publicRuntimeConfig } = getConfig();
@@ -34,6 +34,21 @@ export const postLogin = createAsyncThunk('post/postLogin', async (data: { usern
     return response;
 });
 
+
+export const getAdminUserById = createAsyncThunk('get/getAdminUserById',
+    async (data) => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer YOUR_TOKEN_HERE'
+            }
+        };
+
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/SDASD`, config);
+        return response;
+    }
+);
+
 // Create a slice
 const authAdminSlice = createSlice({
     name: 'adminAuth',
@@ -44,8 +59,8 @@ const authAdminSlice = createSlice({
         },
         logout: (state) => {
             console.log('logout');
-            //state.token = '';
-            //state.data = '';
+            // state.token = '';
+            // state.data = '';
             // localStorage.removeItem('jwtToken');
             // localStorage.removeItem('userData');
         }

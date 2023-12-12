@@ -19,7 +19,7 @@ import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = ['Products'];
 const settings = ['Profile', 'Task', 'Dashboard', 'Logout'];
 
 export default function Index() {
@@ -59,14 +59,13 @@ export default function Index() {
 
     }, []);
 
-
     return (
         <>
             <AppBar position="static">
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
-                        <Typography variant="h6" noWrap component="a" href="#app-bar-with-responsive-menu" sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none' }}>
-                            Admin
+                        <Typography variant="h6" noWrap component="a" sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none' }}>
+                            <span onClick={() => handleCloseUserMenu('dashboard')}>Admin</span>
                         </Typography>
                         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                             <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">

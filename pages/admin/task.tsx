@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useRouter } from 'next/router';
-import { Container } from '@mui/material';
+import { Container, Modal, Box } from '@mui/material';
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { useDispatch } from 'react-redux';
 import { getTask } from '../../redux/task/task-admin-slice';
@@ -18,6 +18,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { formatDateToDDMMYYYY } from '@/utils/common';
+import Image from 'next/image';
 
 
 
@@ -47,6 +48,7 @@ interface Task {
     deadLine: string;
     timeIn: Date;
     timeOut: Date;
+    imageDataUrl: string;
 }
 
 export default function Index() {
@@ -103,6 +105,8 @@ export default function Index() {
                                     <TableCell align="right">End Date</TableCell>
                                     <TableCell align="right">Status</TableCell>
                                     <TableCell align="right">Deadline</TableCell>
+                                    <TableCell align="right">Image</TableCell>
+                                    <TableCell align="right">Action</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -115,13 +119,17 @@ export default function Index() {
                                         <TableCell align="right">{formatDateToDDMMYYYY(row.endDate)}</TableCell>
                                         <TableCell align="right">{row.status}</TableCell>
                                         <TableCell align="right">{row.deadLine}</TableCell>
+                                        <TableCell align="right">
+                                            {row.imageDataUrl && <a href={row.imageDataUrl} target="_blank">
+                                                <img src={row.imageDataUrl} alt="Description of the image" width={50} height={50} />
+                                            </a>}
+                                        </TableCell>
+                                        <TableCell align="right">{'Edit'}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
                     </TableContainer>
-
-
 
                 </Container>
 

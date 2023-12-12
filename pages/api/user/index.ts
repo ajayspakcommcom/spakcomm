@@ -12,6 +12,9 @@ type ApiResponse = | { message: string } | User | User[] | { data: any } | { err
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApiResponse>) {
 
+  console.log(req.query);
+
+
   const user = verifyToken(req);
 
   if (!user) {

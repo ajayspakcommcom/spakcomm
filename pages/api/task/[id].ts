@@ -3,9 +3,20 @@ import clientPromise from '../../../libs/mongodb';
 import { ObjectId } from 'mongodb';
 import { verifyToken } from '../libs/verifyToken';
 
-type User = { id: ObjectId; name: string; age: number; };
+type Task = {
+    _id: ObjectId;
+    clientName: string;
+    username: string;
+    taskName: string;
+    taskDescription: string;
+    startDate: Date;
+    endDate: Date;
+    status: string;
+    deadLine: string;
+    imageDataUrl: string;
+};
 
-type ApiResponse = | { message: string } | User | User[] | { id: any } | { error: string };
+type ApiResponse = | { message: string } | Task | Task[] | { id: any } | { error: string };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApiResponse>) {
 
@@ -18,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         try {
             const client = await clientPromise;
             const db = client.db("user");
-            const collection = db.collection<User>("users");
+            const collection = db.collection<Task>("tasks");
             const item = await collection.findOne({ _id: new ObjectId(id?.toString()) });
 
             if (!item) {

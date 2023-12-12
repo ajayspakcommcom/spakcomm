@@ -1,13 +1,33 @@
 import React, { useState } from 'react';
-import { Modal, Box, Button, Typography, TextField, FormControl } from '@mui/material';
+import { Modal, Box, Button, Typography, TextField, FormControl, InputLabel } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { postTask } from '../../redux/task/task-admin-slice';
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
 import CloseIcon from '@mui/icons-material/Close';
-import { IconButton } from '@mui/material';
+import { IconButton, Select, MenuItem } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import Image from 'next/image';
 
+interface ClientName {
+    value: string;
+    label: string;
+}
+
+const clients: ClientName[] = [
+    { value: 'alupac', label: 'alupac' },
+    { value: 'aluwrap', label: 'aluwrap' },
+    { value: 'asb', label: 'asb' },
+    { value: 'avc', label: 'avc' },
+    { value: 'sahara star', label: 'sahara star' },
+    { value: 'bi', label: 'bi' },
+    { value: 'bsv', label: 'bsv' },
+    { value: 'cipla', label: 'cipla' },
+    { value: 'polycrack', label: 'polycrack' },
+    { value: 'esenpro', label: 'esenpro' },
+];
 
 interface componentProps {
     onClick: () => void;
@@ -30,6 +50,18 @@ interface ResponseType {
     payload?: any;
 }
 
+const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+});
+
 const Index: React.FC<componentProps> = ({ onClick }) => {
 
     const [open, setOpen] = useState(false);
@@ -44,6 +76,22 @@ const Index: React.FC<componentProps> = ({ onClick }) => {
     const [endDate, setEndDate] = useState<Date | null>(new Date());
     const [status, setStatus] = useState('');
     const [deadLine, setDeadLine] = useState('');
+    const [imageDataUrl, setImageDataUrl] = useState('');
+
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files ? event.target.files[0] : null;
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const result = reader.result;
+                if (typeof result === 'string') {
+                    setImageDataUrl(result);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     const [errors, setErrors] = useState({ clientName: '', taskName: '', taskDescription: '', startDate: '', endDate: '', status: '', deadLine: '' });
 
@@ -101,9 +149,7 @@ const Index: React.FC<componentProps> = ({ onClick }) => {
     const handleClose = () => setOpen(false);
 
     const formHandler = () => {
-
-        validate()
-
+        validate();
     };
 
 
@@ -114,8 +160,12 @@ const Index: React.FC<componentProps> = ({ onClick }) => {
 
         if (validate()) {
 
-            const objData = { clientName: clientName, taskName: taskName, taskDescription: taskDescription, startDate: startDate, endDate: endDate, status: status, deadLine: deadLine, token: token };
+            const objData = { clientName: clientName, taskName: taskName, taskDescription: taskDescription, startDate: startDate, endDate: endDate, status: status, deadLine: deadLine, token: token, imageDataUrl: imageDataUrl };
+
             const resp: ResponseType = await dispatch(postTask({ ...objData }));
+
+            console.log(resp);
+
 
             if (resp.payload.status === 200) {
                 setOpen(false);
@@ -133,7 +183,7 @@ const Index: React.FC<componentProps> = ({ onClick }) => {
         <div>
 
             <div className='create-data-wrapper'>
-                <Button variant="contained" color="success" onClick={handleOpen}>Success</Button>
+                <Button variant="contained" color="success" onClick={handleOpen}>Create</Button>
             </div>
 
             <Modal open={open} onClose={formHandler} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
@@ -148,15 +198,26 @@ const Index: React.FC<componentProps> = ({ onClick }) => {
                     </IconButton>
                     <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ mb: 3 }}>Submit Your Task</Typography>
                     <FormControl fullWidth>
-                        <TextField
-                            label="Client Name"
-                            variant="outlined"
-                            value={clientName}
-                            onChange={(e) => setClientName(e.target.value)}
-                            error={!!errors.clientName}
-                            helperText={errors.clientName}
-                            sx={{ mb: 3 }}
-                        />
+
+                        <FormControl fullWidth sx={{ mb: 3 }}>
+                            <InputLabel id="demo-simple-select-label">Client Name</InputLabel>
+                            <Select
+                                label="Client Name"
+                                variant="outlined"
+                                value={clientName}
+                                onChange={(e) => setClientName(e.target.value)}
+                            >
+                                {
+                                    clients.map((item) => (
+                                        <MenuItem key={item.value} value={item.value}>
+                                            {item.label}
+                                        </MenuItem>
+                                    ))
+                                }
+
+                            </Select>
+                        </FormControl>
+
 
                         <TextField
                             label="Task Name"
@@ -173,10 +234,14 @@ const Index: React.FC<componentProps> = ({ onClick }) => {
                             variant="outlined"
                             value={taskDescription}
                             onChange={(e) => setTaskDescription(e.target.value)}
+                            multiline
+                            rows={3}
                             error={!!errors.taskDescription}
                             helperText={errors.taskDescription}
                             sx={{ mb: 3 }}
                         />
+
+
 
                         <TextField
                             type='date'
@@ -218,6 +283,10 @@ const Index: React.FC<componentProps> = ({ onClick }) => {
                             error={!!errors.deadLine}
                             helperText={errors.deadLine}
                         />
+                        <br />
+                        <input type="file" id='image' name='image' onChange={handleFileChange} accept="image/*" className='preview-input-image' />
+                        <br />
+                        {imageDataUrl && <Image src={imageDataUrl} alt="Description of the image" width={70} height={70} />}
 
                         <Button type="submit" variant="contained" onClick={formHandler} sx={{ mt: 4 }}>Submit</Button>
                     </FormControl>
