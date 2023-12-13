@@ -10,6 +10,9 @@ import { IconButton, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Image from 'next/image';
+import getConfig from 'next/config';
+const { publicRuntimeConfig } = getConfig();
+import axios from 'axios';
 
 interface ClientName {
     value: string;
@@ -82,6 +85,7 @@ const Index: React.FC<componentProps> = ({ onClick, isEditMode, editData }) => {
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
     const userData = useSelector((state: RootState) => state.authAdmin);
 
+    const [taskId, setTaskId] = useState('');
     const [clientName, setClientName] = useState('');
     const [taskName, setTaskName] = useState('');
     const [taskDescription, setTaskDescription] = useState('');
@@ -136,11 +140,11 @@ const Index: React.FC<componentProps> = ({ onClick, isEditMode, editData }) => {
             return false;
         }
 
-        if (!endDate) {
-            tempErrors.endDate = 'End date is required'
-            isValid = false;
-            return false;
-        }
+        // if (!endDate) {
+        //     tempErrors.endDate = 'End date is required'
+        //     isValid = false;
+        //     return false;
+        // }
 
         if (!status) {
             tempErrors.status = 'Status is required'
@@ -170,18 +174,31 @@ const Index: React.FC<componentProps> = ({ onClick, isEditMode, editData }) => {
 
         if (validate()) {
 
-            const objData = { clientName: clientName, taskName: taskName, taskDescription: taskDescription, startDate: startDate, endDate: endDate, status: status, deadLine: deadLine, token: token, imageDataUrl: imageDataUrl };
+            if (!isEditMode) {
+                const objData = { clientName: clientName, taskName: taskName, taskDescription: taskDescription, startDate: startDate, endDate: endDate, status: status, deadLine: deadLine, token: token, imageDataUrl: imageDataUrl };
+                const resp: ResponseType = await dispatch(postTask({ ...objData }));
+                if (resp.payload.status === 200) {
+                    onClick()
+                }
+                resp.error ? 'Error' : 'No Error';
+            } else {
+                const objData = { id: taskId, clientName: clientName, taskName: taskName, taskDescription: taskDescription, startDate: startDate, endDate: endDate, status: status, deadLine: deadLine, token: token, imageDataUrl: imageDataUrl };
+                console.log(objData);
 
-            const resp: ResponseType = await dispatch(postTask({ ...objData }));
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token || window.localStorage.getItem('jwtToken')} `
+                    },
+                };
 
-            console.log(resp);
+                const response = await axios.put(`${publicRuntimeConfig.API_URL}task`, JSON.stringify(objData), config);
+                console.log(response);
 
-
-            if (resp.payload.status === 200) {
-                onClick()
+                if (response.status === 200) {
+                    onClick()
+                }
             }
-
-            resp.error ? 'Error' : 'No Error';
 
         } else {
             console.log('Form is invalid');
@@ -190,23 +207,31 @@ const Index: React.FC<componentProps> = ({ onClick, isEditMode, editData }) => {
 
     useEffect(() => {
 
-        console.log(editData);
-
-        setClientName(editData.clientName);
-        setTaskName(editData.taskName);
-        setTaskDescription(editData.taskDescription);
-        setStartDate(editData.startDate);
-        setEndDate(editData.endDate);
-        setStatus(editData.status);
-        setDeadLine(editData.deadLine);
-        setImageDataUrl(editData.imageDataUrl);
-
+        if (editData) {
+            setTaskId(editData._id);
+            setClientName(editData.clientName);
+            setTaskName(editData.taskName);
+            setTaskDescription(editData.taskDescription);
+            setStartDate(new Date(editData.startDate));
+            setEndDate(new Date(editData.endDate));
+            setStatus(editData.status);
+            setDeadLine(editData.deadLine);
+            setImageDataUrl(editData.imageDataUrl);
+        } else {
+            setTaskId('');
+            setClientName('');
+            setTaskName('');
+            setTaskDescription('');
+            setStartDate(new Date());
+            setEndDate(new Date());
+            setStatus('');
+            setDeadLine('');
+            setImageDataUrl('');
+        }
     }, [isEditMode, editData]);
 
     return (
         <div>
-
-            {JSON.stringify(editData)}
 
             <Modal open={true} onClose={formHandler} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
 
@@ -227,8 +252,7 @@ const Index: React.FC<componentProps> = ({ onClick, isEditMode, editData }) => {
                                 label="Client Name"
                                 variant="outlined"
                                 value={clientName}
-                                onChange={(e) => setClientName(e.target.value)}
-                            >
+                                onChange={(e) => setClientName(e.target.value)}>
                                 {
                                     clients.map((item) => (
                                         <MenuItem key={item.value} value={item.value}>

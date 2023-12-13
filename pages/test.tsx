@@ -1,50 +1,35 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Switch from '@mui/material/Switch';
-import Paper from '@mui/material/Paper';
-import Grow from '@mui/material/Grow';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import React, { useState, MouseEvent } from 'react';
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-const icon = (
-    <Paper sx={{ m: 1, width: 100, height: 100 }} elevation={4}>
-        <svg>
-            <Box
-                component="polygon"
-                points="0,100 50,00, 100,100"
-                sx={{
-                    fill: (theme) => theme.palette.common.white,
-                    stroke: (theme) => theme.palette.divider,
-                    strokeWidth: 1,
-                }}
-            />
-        </svg>
-    </Paper>
-);
+export default function Index() {
 
-export default function SimpleGrow() {
-    const [checked, setChecked] = React.useState(false);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-    const handleChange = () => {
-        setChecked((prev) => !prev);
+    const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
     };
 
     return (
-        <Box sx={{ height: 180 }}>
-            <FormControlLabel
-                control={<Switch checked={checked} onChange={handleChange} />}
-                label="Show"
-            />
-            <Box sx={{ display: 'flex' }}>
-                <Grow in={checked}>{icon}</Grow>
-                {/* Conditionally applies the timeout prop to change the entry speed. */}
-                <Grow
-                    in={checked}
-                    style={{ transformOrigin: '0 0 0' }}
-                    {...(checked ? { timeout: 1000 } : {})}
-                >
-                    {icon}
-                </Grow>
-            </Box>
-        </Box>
+        <div>
+            <IconButton aria-label="more" aria-controls="long-menu" aria-haspopup="true" onClick={handleClick}>
+                <MoreVertIcon />
+            </IconButton>
+            <Menu
+                id="long-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}>
+                <MenuItem onClick={handleClose}>Option 1</MenuItem>
+                <MenuItem onClick={handleClose}>Option 2</MenuItem>
+            </Menu>
+        </div>
     );
 }

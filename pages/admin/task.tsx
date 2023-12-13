@@ -3,12 +3,13 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useRouter } from 'next/router';
-import { Container, Modal, Box, Button } from '@mui/material';
+import { Container, Modal, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { useDispatch } from 'react-redux';
 import { getTask } from '../../redux/task/task-admin-slice';
 import TaskFormModal from '../../components/admin/task-form-modal';
 import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import axios from 'axios';
 
 // table
@@ -55,9 +56,6 @@ interface Task {
 }
 
 
-
-
-
 export default function Index() {
 
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -69,6 +67,8 @@ export default function Index() {
 
     const [tasks, setTasks] = useState<Task[]>([]);
     const [error, setError] = useState('');
+    const [dialogue, setDialogue] = useState(false);
+    const [deleteId, setDeleteId] = useState('');
 
     if (!userData.token || !(window.localStorage.getItem('jwtToken'))) {
         router.push('/admin/login');
@@ -95,7 +95,7 @@ export default function Index() {
 
         fetchData();
 
-    }, [toggle]);
+    }, [toggle, deleteId]);
 
     const isFormEditModeHandler = (mode: boolean) => {
         setToggle(true);
@@ -107,7 +107,6 @@ export default function Index() {
         isFormEditModeHandler(true);
 
         console.log(`${publicRuntimeConfig.API_URL}task/${id}`);
-
 
         try {
             if (userData && userData.token) {
@@ -130,6 +129,49 @@ export default function Index() {
 
     };
 
+    const openDeleteModeHandler = (id: string): void => {
+        setDeleteId(id);
+        setDialogue(true);
+    };
+
+    const deleteHandler = async () => {
+        console.log('Item deleted', deleteId);
+        setDialogue(false);
+
+        try {
+            if (userData && userData.token) {
+
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${userData.token || window.localStorage.getItem('jwtToken')} `
+                    },
+                };
+
+                const response = await fetch(`${publicRuntimeConfig.API_URL}task`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${userData.token || window.localStorage.getItem('jwtToken')} `
+                    },
+                    body: JSON.stringify({ id: deleteId })
+                })
+
+                console.log(response);
+
+                if (response.status === 200) {
+                    setDeleteId('');
+                }
+
+            } else {
+                console.error('No token available');
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+
+    };
+
 
     if (userData.token || window.localStorage.getItem('jwtToken')) {
         return (
@@ -137,10 +179,6 @@ export default function Index() {
                 <Header />
 
                 <Container component="main">
-
-                    {/* <div style={{ background: 'red' }}>
-                        {JSON.stringify(editData)}
-                    </div> */}
 
                     <div className='create-data-wrapper'>
                         <Button variant="contained" color="success" onClick={() => isFormEditModeHandler(false)}>Create</Button>
@@ -181,13 +219,37 @@ export default function Index() {
                                             }
                                         </TableCell>
                                         <TableCell align="right">
-                                            <EditIcon className='pointer' onClick={() => openEditModeHandler(row._id)} />
+
+                                            <Box display="flex" alignItems="center" gap={2}>
+                                                <Button variant="contained" color="success" startIcon={<EditIcon />} onClick={() => openEditModeHandler(row._id)}> Edit</Button>
+                                                <Button variant="contained" color="success" startIcon={<DeleteIcon />} onClick={() => openDeleteModeHandler(row._id)}>Delete</Button>
+                                                <Button variant="contained" color="success">Completed</Button>
+                                            </Box>
+
                                         </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
                     </TableContainer>
+
+
+                    <Dialog
+                        open={dialogue}
+                        onClose={() => setDialogue(false)}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description">
+                        <DialogTitle id="alert-dialog-title">{"Confirm Delete"}</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                Are you sure you want to delete this task?
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={() => setDialogue(false)} color="primary">Cancel</Button>
+                            <Button onClick={deleteHandler} color="secondary" autoFocus>Delete</Button>
+                        </DialogActions>
+                    </Dialog>
 
                 </Container>
 
