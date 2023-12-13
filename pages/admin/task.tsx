@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useRouter } from 'next/router';
-import { Container, Modal, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Container, Modal, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Menu, MenuItem } from '@mui/material';
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { useDispatch } from 'react-redux';
 import { getTask } from '../../redux/task/task-admin-slice';
@@ -11,6 +11,8 @@ import TaskFormModal from '../../components/admin/task-form-modal';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import axios from 'axios';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 // table
 import Table from '@mui/material/Table';
@@ -69,6 +71,18 @@ export default function Index() {
     const [error, setError] = useState('');
     const [dialogue, setDialogue] = useState(false);
     const [deleteId, setDeleteId] = useState('');
+    const [isCompleted, setIsCompleted] = useState(false);
+
+    const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
 
     if (!userData.token || !(window.localStorage.getItem('jwtToken'))) {
         router.push('/admin/login');
@@ -134,6 +148,31 @@ export default function Index() {
         setDialogue(true);
     };
 
+    const openCompletedModeHandler = async (id: string) => {
+        isFormEditModeHandler(true);
+        setIsCompleted(true);
+
+        try {
+            if (userData && userData.token) {
+
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${userData.token || window.localStorage.getItem('jwtToken')} `
+                    },
+                };
+
+                const response = await axios.get(`${publicRuntimeConfig.API_URL}task/${id}`, config);
+                setEditData(response.data);
+            } else {
+                console.error('No token available');
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+
+    };
+
     const deleteHandler = async () => {
         console.log('Item deleted', deleteId);
         setDialogue(false);
@@ -173,6 +212,21 @@ export default function Index() {
     };
 
 
+    const resetFormHandler = (isEditMode: boolean, editData: {}, isCompleted: boolean) => {
+        console.log(isEditMode);
+        console.log(editData);
+        console.log(isCompleted);
+    };
+
+    const toggleFormHandler = () => {
+        setToggle(!toggle);
+        isEditForm
+        setIsEditForm(false);
+        setEditData({ _id: '', clientName: '', taskName: '', taskDescription: '', startDate: new Date(), endDate: new Date(), status: '', deadLine: '', imageDataUrl: '', token: '' });
+        setIsCompleted(false);
+    };
+
+
     if (userData.token || window.localStorage.getItem('jwtToken')) {
         return (
             <>
@@ -184,7 +238,7 @@ export default function Index() {
                         <Button variant="contained" color="success" onClick={() => isFormEditModeHandler(false)}>Create</Button>
                     </div>
 
-                    {toggle && <TaskFormModal onClick={() => setToggle(!toggle)} isEditMode={isEditForm} editData={editData} />}
+                    {toggle && <TaskFormModal onClick={() => toggleFormHandler()} isEditMode={isEditForm} editData={editData} isCompleted={isCompleted} />}
 
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 800 }} aria-label="simple table">
@@ -218,15 +272,25 @@ export default function Index() {
                                                 </a>
                                             }
                                         </TableCell>
+
                                         <TableCell align="right">
 
+                                            {/* <IconButton aria-label="more" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                                                <MoreVertIcon />
+                                            </IconButton>
+
+                                            <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+                                                <MenuItem></MenuItem>
+                                            </Menu> */}
+
                                             <Box display="flex" alignItems="center" gap={2}>
-                                                <Button variant="contained" color="success" startIcon={<EditIcon />} onClick={() => openEditModeHandler(row._id)}> Edit</Button>
-                                                <Button variant="contained" color="success" startIcon={<DeleteIcon />} onClick={() => openDeleteModeHandler(row._id)}>Delete</Button>
-                                                <Button variant="contained" color="success">Completed</Button>
+                                                <span className='pointer' onClick={() => openEditModeHandler(row._id)}><EditIcon /></span>
+                                                <span className='pointer' onClick={() => openDeleteModeHandler(row._id)}><DeleteIcon /></span>
+                                                <span className='pointer' onClick={() => openCompletedModeHandler(row._id)}><CheckCircleIcon /></span>
                                             </Box>
 
                                         </TableCell>
+
                                     </TableRow>
                                 ))}
                             </TableBody>

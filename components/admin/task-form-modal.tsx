@@ -36,6 +36,7 @@ interface componentProps {
     onClick: () => void;
     isEditMode: boolean;
     editData: Task;
+    isCompleted: boolean;
 }
 
 const modalStyle = {
@@ -80,7 +81,7 @@ interface Task {
     token: string;
 }
 
-const Index: React.FC<componentProps> = ({ onClick, isEditMode, editData }) => {
+const Index: React.FC<componentProps> = ({ onClick, isEditMode, editData, isCompleted }) => {
 
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
     const userData = useSelector((state: RootState) => state.authAdmin);
@@ -146,11 +147,11 @@ const Index: React.FC<componentProps> = ({ onClick, isEditMode, editData }) => {
         //     return false;
         // }
 
-        if (!status) {
-            tempErrors.status = 'Status is required'
-            isValid = false;
-            return false;
-        }
+        // if (!status) {
+        //     tempErrors.status = 'Status is required'
+        //     isValid = false;
+        //     return false;
+        // }
 
         if (!deadLine) {
             tempErrors.deadLine = 'DeadLine is required'
@@ -178,7 +179,7 @@ const Index: React.FC<componentProps> = ({ onClick, isEditMode, editData }) => {
                 const objData = { clientName: clientName, taskName: taskName, taskDescription: taskDescription, startDate: startDate, endDate: endDate, status: status, deadLine: deadLine, token: token, imageDataUrl: imageDataUrl };
                 const resp: ResponseType = await dispatch(postTask({ ...objData }));
                 if (resp.payload.status === 200) {
-                    onClick()
+                    onClick();
                 }
                 resp.error ? 'Error' : 'No Error';
             } else {
@@ -196,7 +197,7 @@ const Index: React.FC<componentProps> = ({ onClick, isEditMode, editData }) => {
                 console.log(response);
 
                 if (response.status === 200) {
-                    onClick()
+                    onClick();
                 }
             }
 
@@ -243,96 +244,117 @@ const Index: React.FC<componentProps> = ({ onClick, isEditMode, editData }) => {
                     <IconButton onClick={onClick} sx={{ position: 'absolute', right: 8, top: 8 }}>
                         <CloseIcon />
                     </IconButton>
-                    <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ mb: 3 }}>Submit Your Task</Typography>
+                    <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ mb: 3 }}>
+                        {isEditMode ? 'Edit Your Task' : 'Submit Your Task'}
+                    </Typography>
                     <FormControl fullWidth>
 
-                        <FormControl fullWidth sx={{ mb: 3 }}>
-                            <InputLabel id="demo-simple-select-label">Client Name</InputLabel>
-                            <Select
-                                label="Client Name"
-                                variant="outlined"
-                                value={clientName}
-                                onChange={(e) => setClientName(e.target.value)}>
-                                {
-                                    clients.map((item) => (
-                                        <MenuItem key={item.value} value={item.value}>
-                                            {item.label}
-                                        </MenuItem>
-                                    ))
+                        {
+                            !isCompleted &&
+                            <>
+                                <FormControl fullWidth sx={{ mb: 3 }}>
+                                    <InputLabel id="demo-simple-select-label">Client Name</InputLabel>
+                                    <Select
+                                        label="Client Name"
+                                        variant="outlined"
+                                        value={clientName}
+                                        onChange={(e) => setClientName(e.target.value)}>
+                                        {
+                                            clients.map((item) => (
+                                                <MenuItem key={item.value} value={item.value}>
+                                                    {item.label}
+                                                </MenuItem>
+                                            ))
+                                        }
+
+                                    </Select>
+                                </FormControl>
+
+
+                                <TextField
+                                    label="Task Name"
+                                    variant="outlined"
+                                    value={taskName}
+                                    onChange={(e) => setTaskName(e.target.value)}
+                                    error={!!errors.taskName}
+                                    helperText={errors.taskName}
+                                    sx={{ mb: 3 }}
+                                />
+
+                                <TextField
+                                    label="Task Description"
+                                    variant="outlined"
+                                    value={taskDescription}
+                                    onChange={(e) => setTaskDescription(e.target.value)}
+                                    multiline
+                                    rows={3}
+                                    error={!!errors.taskDescription}
+                                    helperText={errors.taskDescription}
+                                    sx={{ mb: 3 }}
+                                />
+
+
+
+                                <TextField
+                                    type='date'
+                                    label="Start Date"
+                                    variant="outlined"
+                                    value={startDate instanceof Date ? startDate.toISOString().split('T')[0] : ''}
+                                    onChange={(e) => setStartDate(e.target.value ? new Date(e.target.value) : null)}
+                                    error={!!errors.startDate}
+                                    helperText={errors.startDate}
+                                    sx={{ mb: 3 }}
+                                />
+
+                                {isEditMode &&
+                                    <TextField
+                                        type='date'
+                                        label="End Date"
+                                        variant="outlined"
+                                        value={endDate instanceof Date ? endDate.toISOString().split('T')[0] : ''}
+                                        onChange={(e) => setEndDate(e.target.value ? new Date(e.target.value) : null)}
+                                        error={!!errors.endDate}
+                                        helperText={errors.endDate}
+                                        sx={{ mb: 3 }}
+                                    />
                                 }
 
-                            </Select>
-                        </FormControl>
 
-
-                        <TextField
-                            label="Task Name"
-                            variant="outlined"
-                            value={taskName}
-                            onChange={(e) => setTaskName(e.target.value)}
-                            error={!!errors.taskName}
-                            helperText={errors.taskName}
-                            sx={{ mb: 3 }}
-                        />
-
-                        <TextField
-                            label="Task Description"
-                            variant="outlined"
-                            value={taskDescription}
-                            onChange={(e) => setTaskDescription(e.target.value)}
-                            multiline
-                            rows={3}
-                            error={!!errors.taskDescription}
-                            helperText={errors.taskDescription}
-                            sx={{ mb: 3 }}
-                        />
+                                {isEditMode &&
+                                    <TextField
+                                        label="Status"
+                                        variant="outlined"
+                                        value={status}
+                                        onChange={(e) => setStatus(e.target.value)}
+                                        error={!!errors.status}
+                                        helperText={errors.status}
+                                        sx={{ mb: 3 }}
+                                    />
+                                }
 
 
 
-                        <TextField
-                            type='date'
-                            label="Start Date"
-                            variant="outlined"
-                            value={startDate instanceof Date ? startDate.toISOString().split('T')[0] : ''}
-                            onChange={(e) => setStartDate(e.target.value ? new Date(e.target.value) : null)}
-                            error={!!errors.startDate}
-                            helperText={errors.startDate}
-                            sx={{ mb: 3 }}
-                        />
+                                <TextField
+                                    label="DeadLine"
+                                    variant="outlined"
+                                    value={deadLine}
+                                    onChange={(e) => setDeadLine(e.target.value)}
+                                    error={!!errors.deadLine}
+                                    helperText={errors.deadLine}
+                                />
+                            </>
+                        }
 
-                        <TextField
-                            type='date'
-                            label="End Date"
-                            variant="outlined"
-                            value={endDate instanceof Date ? endDate.toISOString().split('T')[0] : ''}
-                            onChange={(e) => setEndDate(e.target.value ? new Date(e.target.value) : null)}
-                            error={!!errors.endDate}
-                            helperText={errors.endDate}
-                            sx={{ mb: 3 }}
-                        />
+                        {
+                            isCompleted &&
+                            <>
+                                <br />
+                                <input type="file" id='image' name='image' onChange={handleFileChange} accept="image/*" className='preview-input-image' />
+                                <br />
+                            </>
+                        }
 
-                        <TextField
-                            label="Status"
-                            variant="outlined"
-                            value={status}
-                            onChange={(e) => setStatus(e.target.value)}
-                            error={!!errors.status}
-                            helperText={errors.status}
-                            sx={{ mb: 3 }}
-                        />
-
-                        <TextField
-                            label="DeadLine"
-                            variant="outlined"
-                            value={deadLine}
-                            onChange={(e) => setDeadLine(e.target.value)}
-                            error={!!errors.deadLine}
-                            helperText={errors.deadLine}
-                        />
-                        <br />
-                        <input type="file" id='image' name='image' onChange={handleFileChange} accept="image/*" className='preview-input-image' />
-                        <br />
-                        {imageDataUrl && <Image src={imageDataUrl} alt="Description of the image" width={70} height={70} />}
+                        {isEditMode && imageDataUrl && <Image src={imageDataUrl} alt="Description of the image" width={70} height={70} />}
 
                         <Button type="submit" variant="contained" onClick={formHandler} sx={{ mt: 4 }}>
                             {isEditMode ? 'Edit' : 'Submit'}

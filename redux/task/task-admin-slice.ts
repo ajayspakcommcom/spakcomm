@@ -30,7 +30,6 @@ export const getTask = createAsyncThunk('get/getTasks', async (token: string) =>
     };
 
     const response = await axios.get(`${publicRuntimeConfig.API_URL}task`, config);
-    console.log(response);
     return response;
 });
 
