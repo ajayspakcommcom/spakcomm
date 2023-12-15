@@ -33,6 +33,9 @@ const Index: React.FC = () => {
     const [toggleModal, setToggleModal] = useState<boolean>(false);
     const [toggleDialogue, setToggleDialogue] = useState<boolean>(false);
     const [deleteId, setDeleteId] = useState<string>();
+    const [updateId, setUpdateId] = useState<string>();
+    const [isEditMode, setIsEditMode] = useState<boolean>(true);
+
 
 
     if (!userData.token || !(window.localStorage.getItem('jwtToken'))) {
@@ -51,43 +54,88 @@ const Index: React.FC = () => {
         }),
         onSubmit: (values) => {
 
-            const createHoliday = async (obj: FormValues) => {
-                try {
-                    if (userData && userData.token) {
-                        const config = {
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${userData.token || window.localStorage.getItem('jwtToken')}`
-                            },
-                        };
-
-                        const objData = {
-                            title: obj.title,
-                            date: obj.date,
-                            type: "CREATE"
-                        };
-
-                        const response = await axios.post(`${publicRuntimeConfig.API_URL}holiday`, JSON.stringify(objData), config);
-                        console.log(response);
+            console.log(isEditMode);
 
 
+            if (isEditMode) {
+                const editHoliday = async (obj: FormValues) => {
+                    try {
+                        if (userData && userData.token) {
+                            const config = {
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${userData.token || window.localStorage.getItem('jwtToken')}`
+                                },
+                            };
+
+                            const objData = {
+                                title: obj.title,
+                                date: obj.date,
+                                type: "UPDATE",
+                                id: updateId
+                            };
+
+                            console.log(objData);
 
 
-                    } else {
-                        console.error('No token available');
+                            const response = await axios.post(`${publicRuntimeConfig.API_URL}holiday`, JSON.stringify(objData), config);
+                            console.log(response);
+
+                            if (response.status === 200) {
+                                console.log('');
+                            }
+
+                        } else {
+                            console.error('No token available');
+                        }
+
+                    } catch (error) {
+                        console.error('Error creating data:', error);
                     }
+                };
 
-                } catch (error) {
-                    console.error('Error creating data:', error);
-                }
-            };
+                editHoliday(values);
 
-            createHoliday(values);
+            } else {
+
+                const createHoliday = async (obj: FormValues) => {
+                    try {
+                        if (userData && userData.token) {
+                            const config = {
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${userData.token || window.localStorage.getItem('jwtToken')}`
+                                },
+                            };
+
+                            const objData = {
+                                title: obj.title,
+                                date: obj.date,
+                                type: "CREATE"
+                            };
+
+                            const response = await axios.post(`${publicRuntimeConfig.API_URL}holiday`, JSON.stringify(objData), config);
+                            console.log(response);
+
+                            if (response.status === 200) {
+                                setIsEditMode(false);
+                            }
+
+                        } else {
+                            console.error('No token available');
+                        }
+
+                    } catch (error) {
+                        console.error('Error creating data:', error);
+                    }
+                };
+
+                createHoliday(values);
+            }
+
             setToggleModal(false);
         }
     });
-
-
 
 
     useEffect(() => {
@@ -107,8 +155,6 @@ const Index: React.FC = () => {
                     const response = await axios.post(`${publicRuntimeConfig.API_URL}holiday`, JSON.stringify({ "type": "LIST" }), config);
 
                     if (response.status === 200) {
-                        console.log(response);
-                        console.log(response.data);
                         setHolidayList(response.data)
                     }
 
@@ -132,9 +178,42 @@ const Index: React.FC = () => {
         setToggleModal(!toggleModal);
     };
 
-    const editHandler = () => {
-        console.log('Edit');
+    const editHandler = async (id: string | undefined) => {
+        setIsEditMode(true);
         toggleModalHandler();
+        setUpdateId(id);
+
+        try {
+            if (userData && userData.token) {
+
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${userData.token || window.localStorage.getItem('jwtToken')} `
+                    },
+                };
+
+                const objData = {
+                    id: id,
+                    type: "DETAIL"
+                };
+
+                const response = await axios.post(`${publicRuntimeConfig.API_URL}holiday`, JSON.stringify(objData), config);
+                console.log(response);
+                console.log(response.data);
+
+                if (response.status === 200) {
+                    formik.setFieldValue('title', response.data.title);
+                    formik.setFieldValue('date', response.data.date);
+                }
+
+            } else {
+                console.error('No token available');
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+
     };
 
     const deleteHandler = async (id: string | undefined) => {
@@ -187,13 +266,18 @@ const Index: React.FC = () => {
         p: 4,
     };
 
+    const openCreateModalHandler = () => {
+        toggleModalHandler();
+        setIsEditMode(false);
+    };
+
     return (
         <>
             <Header />
             <Container component="main">
 
                 <div className='create-data-wrapper'>
-                    <Button variant="contained" color="success" onClick={toggleModalHandler}>Create</Button>
+                    <Button variant="contained" color="success" onClick={openCreateModalHandler}>Create</Button>
                 </div>
 
                 <TableContainer component={Paper}>
@@ -212,7 +296,7 @@ const Index: React.FC = () => {
                                     <TableCell component="th" scope="row">{formatDateToDDMMYYYY(row.date as string)}</TableCell>
                                     <TableCell component="th" scope="row">
                                         <Box display="flex" alignItems="center" gap={2}>
-                                            <span className='pointer' onClick={editHandler}><EditIcon /></span>
+                                            <span className='pointer' onClick={() => editHandler(row._id)}><EditIcon /></span>
                                             <span className='pointer' onClick={() => deleteHandler(row._id)}><DeleteIcon /></span>
                                         </Box>
                                     </TableCell>
