@@ -75,9 +75,6 @@ const Index: React.FC = () => {
                                 id: updateId
                             };
 
-                            console.log(objData);
-
-
                             const response = await axios.post(`${publicRuntimeConfig.API_URL}holiday`, JSON.stringify(objData), config);
                             console.log(response);
 
