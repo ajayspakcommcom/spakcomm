@@ -16,7 +16,7 @@ const { publicRuntimeConfig } = getConfig();
 import axios from 'axios';
 
 type FormValues = {
-    _id?: string;
+    _id?: string | undefined;
     title: string;
     date: Date | undefined | string;
 };
@@ -25,13 +25,15 @@ const Index: React.FC = () => {
 
 
 
-    const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+    //const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
     const userData = useSelector((state: RootState) => state.authAdmin);
     const router = useRouter();
 
     const [holdayList, setHolidayList] = useState<FormValues[]>([]);
     const [toggleModal, setToggleModal] = useState<boolean>(false);
     const [toggleDialogue, setToggleDialogue] = useState<boolean>(false);
+    const [deleteId, setDeleteId] = useState<string>();
+
 
     if (!userData.token || !(window.localStorage.getItem('jwtToken'))) {
         router.push('/admin/login');
@@ -48,10 +50,44 @@ const Index: React.FC = () => {
             date: Yup.date().required('Date is Required')
         }),
         onSubmit: (values) => {
-            console.log(values);
+
+            const createHoliday = async (obj: FormValues) => {
+                try {
+                    if (userData && userData.token) {
+                        const config = {
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${userData.token || window.localStorage.getItem('jwtToken')}`
+                            },
+                        };
+
+                        const objData = {
+                            title: obj.title,
+                            date: obj.date,
+                            type: "CREATE"
+                        };
+
+                        const response = await axios.post(`${publicRuntimeConfig.API_URL}holiday`, JSON.stringify(objData), config);
+                        console.log(response);
+
+
+
+
+                    } else {
+                        console.error('No token available');
+                    }
+
+                } catch (error) {
+                    console.error('Error creating data:', error);
+                }
+            };
+
+            createHoliday(values);
             setToggleModal(false);
         }
     });
+
+
 
 
     useEffect(() => {
@@ -68,7 +104,7 @@ const Index: React.FC = () => {
                         },
                     };
 
-                    const response = await axios.post(`${publicRuntimeConfig.API_URL}holiday`, JSON.stringify({ "type": "List" }), config);
+                    const response = await axios.post(`${publicRuntimeConfig.API_URL}holiday`, JSON.stringify({ "type": "LIST" }), config);
 
                     if (response.status === 200) {
                         console.log(response);
@@ -89,15 +125,11 @@ const Index: React.FC = () => {
 
         return () => console.log('Unbind UseEffect');
 
-    }, []);
+    }, [toggleModal, toggleDialogue]);
 
     const toggleModalHandler = () => {
+        formik.resetForm();
         setToggleModal(!toggleModal);
-    };
-
-    const createHandler = () => {
-        console.log('Create');
-        toggleModalHandler();
     };
 
     const editHandler = () => {
@@ -105,11 +137,43 @@ const Index: React.FC = () => {
         toggleModalHandler();
     };
 
-    const deleteHandler = () => {
-        console.log('Delete');
+    const deleteHandler = async (id: string | undefined) => {
         setToggleDialogue(true);
-    };
+        setDeleteId(id);
+    }
 
+    const confirmToDelete = async () => {
+
+        try {
+            if (userData && userData.token) {
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${userData.token || window.localStorage.getItem('jwtToken')}`
+                    },
+                };
+
+                const objData = {
+                    id: deleteId,
+                    type: "DELETE"
+                };
+
+                const response = await axios.post(`${publicRuntimeConfig.API_URL}holiday`, JSON.stringify(objData), config);
+                console.log(response);
+
+                if (response.status === 200) {
+                    setToggleDialogue(false);
+                }
+
+            } else {
+                console.error('No token available');
+            }
+
+        } catch (error) {
+            console.error('Error creating data:', error);
+        }
+
+    };
 
     const modalStyle = {
         position: 'absolute',
@@ -125,12 +189,11 @@ const Index: React.FC = () => {
 
     return (
         <>
-
             <Header />
             <Container component="main">
 
                 <div className='create-data-wrapper'>
-                    <Button variant="contained" color="success" onClick={createHandler}>Create</Button>
+                    <Button variant="contained" color="success" onClick={toggleModalHandler}>Create</Button>
                 </div>
 
                 <TableContainer component={Paper}>
@@ -150,7 +213,7 @@ const Index: React.FC = () => {
                                     <TableCell component="th" scope="row">
                                         <Box display="flex" alignItems="center" gap={2}>
                                             <span className='pointer' onClick={editHandler}><EditIcon /></span>
-                                            <span className='pointer' onClick={deleteHandler}><DeleteIcon /></span>
+                                            <span className='pointer' onClick={() => deleteHandler(row._id)}><DeleteIcon /></span>
                                         </Box>
                                     </TableCell>
                                 </TableRow>
@@ -169,7 +232,7 @@ const Index: React.FC = () => {
 
                         <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ mb: 3 }}>Heading</Typography>
 
-                        <form onSubmit={formik.handleSubmit}>
+                        <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
                             <Box margin={1}>
                                 <TextField
                                     fullWidth
@@ -218,7 +281,7 @@ const Index: React.FC = () => {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => setToggleDialogue(false)} color="primary">Cancel</Button>
-                        <Button onClick={deleteHandler} color="secondary" autoFocus>Delete</Button>
+                        <Button onClick={confirmToDelete} color="secondary" autoFocus>Delete</Button>
                     </DialogActions>
                 </Dialog>
 
