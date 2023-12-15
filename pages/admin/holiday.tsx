@@ -27,7 +27,7 @@ const HelloWorld: React.FC = () => {
 
     return (
         <>
-            <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+            {/* <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
                 <Card sx={{ minWidth: 500 }}>
                     <CardContent>
                         <Typography variant="h5" component="div" sx={{ textAlign: 'center' }}>
@@ -67,7 +67,7 @@ const HelloWorld: React.FC = () => {
                         </Box>
                     </CardContent>
                 </Card>
-            </Box>
+            </Box> */}
         </>
     )
 };
