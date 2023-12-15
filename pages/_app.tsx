@@ -9,6 +9,7 @@ import Backdrop from '@mui/material/Backdrop';
 import { CircularProgress } from '@mui/material';
 import Preloader from '@/components/preloader';
 
+
 const persistor = persistStore(store)
 
 export default function App({ Component, pageProps }: AppProps) {

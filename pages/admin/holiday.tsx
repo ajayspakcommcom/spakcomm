@@ -1,75 +1,233 @@
-import React, { useState } from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import getConfig from 'next/config';
-import { useDispatch } from 'react-redux';
-import { postLogin } from '../../redux/auth/auth-admin-slice';
-import { ThunkDispatch } from "@reduxjs/toolkit";
+import React, { useState, useEffect } from 'react';
+import { TextField, Button, Container, Box, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, Modal, IconButton, Typography, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { useFormik } from 'formik';
+import * as Yup from "yup";
+import Header from '@/components/admin/header';
+import CloseIcon from '@mui/icons-material/Close';
+import { formatDateToDDMMYYYY } from '@/utils/common';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { ThunkDispatch } from '@reduxjs/toolkit';
 import { useRouter } from 'next/router';
+import getConfig from 'next/config';
+const { publicRuntimeConfig } = getConfig();
+import axios from 'axios';
+
+type FormValues = {
+    _id?: string;
+    title: string;
+    date: Date | undefined | string;
+};
+
+const Index: React.FC = () => {
 
 
-const HelloWorld: React.FC = () => {
+
+    const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+    const userData = useSelector((state: RootState) => state.authAdmin);
+    const router = useRouter();
+
+    const [holdayList, setHolidayList] = useState<FormValues[]>([]);
+    const [toggleModal, setToggleModal] = useState<boolean>(false);
+    const [toggleDialogue, setToggleDialogue] = useState<boolean>(false);
+
+    if (!userData.token || !(window.localStorage.getItem('jwtToken'))) {
+        router.push('/admin/login');
+        return false;
+    }
+
+    const formik = useFormik<FormValues>({
+        initialValues: {
+            title: '',
+            date: '',
+        },
+        validationSchema: Yup.object({
+            title: Yup.string().min(2).required('Title is required'),
+            date: Yup.date().required('Date is Required')
+        }),
+        onSubmit: (values) => {
+            console.log(values);
+            setToggleModal(false);
+        }
+    });
 
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        // if (validate()) {
-        //     // const resp: ResponseType = await dispatch(postLogin({ username: username, password: password }));
-        //     // resp.error ? setShowError(true) : redirectToDashboardRoute();
-        // } else {
-        //     console.log('Form is invalid');
-        // }
+    useEffect(() => {
+
+        const fetchData = async () => {
+
+            try {
+                if (userData && userData.token) {
+
+                    const config = {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${userData.token || window.localStorage.getItem('jwtToken')}`
+                        },
+                    };
+
+                    const response = await axios.post(`${publicRuntimeConfig.API_URL}holiday`, JSON.stringify({ "type": "List" }), config);
+
+                    if (response.status === 200) {
+                        console.log(response);
+                        console.log(response.data);
+                        setHolidayList(response.data)
+                    }
+
+                } else {
+                    console.error('No token available');
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+
+        };
+
+        fetchData();
+
+        return () => console.log('Unbind UseEffect');
+
+    }, []);
+
+    const toggleModalHandler = () => {
+        setToggleModal(!toggleModal);
+    };
+
+    const createHandler = () => {
+        console.log('Create');
+        toggleModalHandler();
+    };
+
+    const editHandler = () => {
+        console.log('Edit');
+        toggleModalHandler();
+    };
+
+    const deleteHandler = () => {
+        console.log('Delete');
+        setToggleDialogue(true);
+    };
+
+
+    const modalStyle = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
     };
 
     return (
         <>
-            {/* <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
-                <Card sx={{ minWidth: 500 }}>
-                    <CardContent>
-                        <Typography variant="h5" component="div" sx={{ textAlign: 'center' }}>
-                            Spak Admin
-                        </Typography>
-                        <Box
-                            component="form"
-                            sx={{
-                                '& .MuiTextField-root': { m: 1, width: '45ch' },
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center'
-                            }}
-                            noValidate
-                            autoComplete="off"
-                            onSubmit={handleSubmit}
-                        >
-                            <TextField
-                                label="Email"
-                                variant="outlined"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                error={!!errors.username}
-                                helperText={errors.username}
-                            />
-                            <TextField
-                                label="Password"
-                                type="password"
-                                variant="outlined"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                error={!!errors.password}
-                                helperText={errors.password}
-                            />
-                            {showError && <p>Invalid Username and Password</p>}
-                            <Button type="submit" variant="contained" color="primary" sx={{ m: 1 }}>Login</Button>
-                        </Box>
-                    </CardContent>
-                </Card>
-            </Box> */}
+
+            <Header />
+            <Container component="main">
+
+                <div className='create-data-wrapper'>
+                    <Button variant="contained" color="success" onClick={createHandler}>Create</Button>
+                </div>
+
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 800 }} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Title</TableCell>
+                                <TableCell>Date</TableCell>
+                                <TableCell>Action</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {Array.isArray(holdayList) && holdayList.map((row, index) => (
+                                <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                    <TableCell component="th" scope="row">{row.title}</TableCell>
+                                    <TableCell component="th" scope="row">{formatDateToDDMMYYYY(row.date as string)}</TableCell>
+                                    <TableCell component="th" scope="row">
+                                        <Box display="flex" alignItems="center" gap={2}>
+                                            <span className='pointer' onClick={editHandler}><EditIcon /></span>
+                                            <span className='pointer' onClick={deleteHandler}><DeleteIcon /></span>
+                                        </Box>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+
+                <Modal open={toggleModal} onClose={toggleModalHandler} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+
+                    <Box sx={modalStyle}>
+
+                        <IconButton onClick={toggleModalHandler} sx={{ position: 'absolute', right: 8, top: 8 }}>
+                            <CloseIcon />
+                        </IconButton>
+
+                        <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ mb: 3 }}>Heading</Typography>
+
+                        <form onSubmit={formik.handleSubmit}>
+                            <Box margin={1}>
+                                <TextField
+                                    fullWidth
+                                    id="title"
+                                    name="title"
+                                    label="Title"
+                                    value={formik.values.title}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.title && Boolean(formik.errors.title)}
+                                    helperText={formik.touched.title && formik.errors.title} />
+                            </Box>
+
+                            <Box margin={1}>
+                                <TextField
+                                    fullWidth
+                                    id="date"
+                                    name="date"
+                                    label="Date"
+                                    type="date"
+                                    value={formik.values.date}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.date && Boolean(formik.errors.date)}
+                                    helperText={formik.touched.date && formik.errors.date} />
+                            </Box>
+
+                            <Box margin={1}>
+                                <Button color="primary" variant="contained" fullWidth type="submit">Submit</Button>
+                            </Box>
+                        </form>
+                    </Box>
+
+                </Modal>
+
+                <Dialog
+                    open={toggleDialogue}
+                    onClose={() => setToggleDialogue(false)}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description">
+                    <DialogTitle id="alert-dialog-title">{"Confirm Delete"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Are you sure you want to delete this Holiday?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setToggleDialogue(false)} color="primary">Cancel</Button>
+                        <Button onClick={deleteHandler} color="secondary" autoFocus>Delete</Button>
+                    </DialogActions>
+                </Dialog>
+
+
+            </Container>
+
+
         </>
     )
 };
 
-export default HelloWorld;
+export default Index;
