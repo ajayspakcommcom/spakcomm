@@ -3,7 +3,6 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useRouter } from 'next/router';
-import HolidayChart from '../../components/admin/holiday-chart';
 import { Container } from '@mui/material';
 
 export default function Index() {
@@ -21,7 +20,7 @@ export default function Index() {
             <>
                 <Header />
                 <Container>
-                    <HolidayChart />
+
                 </Container>
             </>
         );
