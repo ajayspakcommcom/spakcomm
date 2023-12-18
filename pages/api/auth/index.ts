@@ -24,8 +24,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // Connect to the database
     const client = await clientPromise;
-    const db = client.db("user");
-    const collection = db.collection<User>("users");
+    const db = client.db("Spak");
+    const collection = db.collection<User>("user");
 
     // Fetch all users (consider using a more efficient query in a real-world application)
     const users = await collection.find({}).toArray();

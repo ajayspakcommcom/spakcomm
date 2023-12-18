@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         case 'LIST':
           try {
             const client = await clientPromise;
-            const db = client.db("user");
+            const db = client.db("Spak");
             const collection = db.collection<Holiday>("holiday");
             const data = await collection.find({}).toArray();
             res.status(200).json(data);
@@ -40,7 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           const { id } = req.body;
           try {
             const client = await clientPromise;
-            const db = client.db("user");
+            const db = client.db("Spak");
             const collection = db.collection<Holiday>("holiday");
             const item = await collection.findOne({ _id: new ObjectId(id?.toString()) });
 
@@ -61,7 +61,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         case 'CREATE':
           try {
             const client = await clientPromise;
-            const db = client.db("user");
+            const db = client.db("Spak");
             const collection = db.collection<Holiday>("holiday");
             const result = await collection.insertOne(req.body);
             res.status(200).json({ data: result });
@@ -77,7 +77,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         case 'UPDATE':
           try {
             const client = await clientPromise;
-            const db = client.db("user");
+            const db = client.db("Spak");
             const collection = db.collection<Holiday>("holiday");
             const result = await collection.replaceOne({ _id: new ObjectId(req.body.id) }, req.body);
             res.status(200).json({ data: result });
@@ -93,7 +93,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         case 'DELETE':
           try {
             const client = await clientPromise;
-            const db = client.db("user");
+            const db = client.db("Spak");
             const collection = db.collection<Holiday>("holiday");
             const result = await collection.deleteOne({ _id: new ObjectId(req.body.id) });
             res.status(200).json({ data: result });
