@@ -61,7 +61,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                     file: `/uploads/${uniqueFilename}`
                 });
 
-                const emailSent = await sendEmail({ recipient: 'ajay@spakcomm.com', subject: 'Join The Tale', text: `<b>Name:</b> ${fields.name![0]}, <br /> <b>Email:</b> ${fields.email![0]}, <br /> <b>Mobile:</b> ${fields.mobile![0]}, <br /> <b>Document:</b> <a href=${localhostUrl}/uploads/${uniqueFilename} target="_blank">Resume</a>` });
+                const emailSent = await sendEmail({ recipient: 'ajay@spakcomm.com', subject: 'Join The Tale', text: `<b>Name:</b> ${fields.name![0]}, <br /> <b>Email:</b> ${fields.email![0]}, <br /> <b>Mobile:</b> ${fields.mobile![0]}, <br /> <b>Document:</b> <a href=http://ec2-13-232-13-208.ap-south-1.compute.amazonaws.com/uploads/${uniqueFilename} target="_blank">Resume</a>` });
 
                 if (emailSent) {
                     res.status(200).json({ message: 'User Created Successfully' });
