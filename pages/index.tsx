@@ -33,8 +33,8 @@ export default function Home() {
               </div>
             </Col>
             <Col lg={6}>
-              <div className='hero-img'>
-                <Image src={require('../public/assets/img/home/1.png')} alt='' className='img-fluid' />
+              <div>
+                <Image src={require('../public/assets/img/home/1.png')} alt='' className='full-img' />
               </div>
             </Col>
           </Row>
@@ -57,7 +57,7 @@ export default function Home() {
                 <button className="custom-btn m-0">See Our Expertise »</button>
               </div>
             </Col>
-            <Col lg={6}>
+            <Col lg={6} className='right-align'>
               <div className="what-we-do-right">
                 <table className='what-we-do-table'>
                   <tbody>
@@ -89,12 +89,6 @@ export default function Home() {
         <div className='client-section'>
           <ClientTele />
         </div>
-
-        <Container className='home-before-footer'>
-          <Row>
-            <Col lg={8}><strong>Visionary Craftsmen. Passionate Storytellers. Your Brand’s Best Friend. Bold Thinkers. Creative Allies. Design Virtuosos. Conceptual Wizards. Your Vibrant Collaborators.</strong></Col>
-          </Row>
-        </Container>
 
       </Wrapper>
 

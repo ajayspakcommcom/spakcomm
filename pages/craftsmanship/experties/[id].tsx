@@ -49,7 +49,7 @@ const Index: React.FC<Props> = ({ item }) => {
 
                 <ServiceDetail itemData={item.detail.service} />
 
-                <Container className='home-before-footer'>
+                {/* <Container className='home-before-footer'>
                     <Row>
                         <Col lg={8}>
                             <strong>
@@ -57,7 +57,7 @@ const Index: React.FC<Props> = ({ item }) => {
                             </strong>
                         </Col>
                     </Row>
-                </Container>
+                </Container> */}
 
             </Wrapper>
             <Footer />

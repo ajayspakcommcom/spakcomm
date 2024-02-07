@@ -1,27 +1,42 @@
-import Button from 'react-bootstrap/Button';
+import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 const Header: React.FC = () => {
 
+    const [scrolled, setScrolled] = useState(false);
     const router = useRouter();
 
     const handleNavigation = (string: string) => {
         router.push(string);
     };
 
+    useEffect(() => {
 
+        const handleScroll = () => {
+            const scrollTop = window.scrollY;
+            if (scrollTop > 100) {
+                setScrolled(true);
+            } else {
+                setScrolled(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     return (
         <>
 
-            <Navbar expand="lg" className="bg-body-tertiary">
+            <Navbar expand="lg" className={`bg-body-tertiary ${scrolled ? 'fixed-nav' : ''}`}>
                 <Container>
                     <Image src={require('../public/assets/img/logo.png')} alt='Spakcomm Logo' onClick={() => handleNavigation('/')} className='pointer' />
                     <Navbar.Toggle aria-controls="navbarScroll" />

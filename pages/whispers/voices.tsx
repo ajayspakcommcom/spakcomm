@@ -19,16 +19,6 @@ const Index: React.FC = () => {
 
                 <TestimonialSwiper />
 
-                <Container className='home-before-footer'>
-                    <Row>
-                        <Col lg={8}>
-                            <strong>
-                                Strategic Dreamers. Dynamic Illustrators. Your Brand’s Reliable Guardian. Passionate Creators. Insightful Collaborators. Design Maestros. Imagination Wizards. Your Zealous Associates.
-                            </strong>
-                        </Col>
-                    </Row>
-                </Container>
-
             </Wrapper>
             <Footer />
         </>

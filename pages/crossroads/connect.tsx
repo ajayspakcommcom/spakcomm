@@ -68,7 +68,7 @@ const Index: React.FC = () => {
             <Wrapper>
                 <OtherHeader img='origin.png' heading='Connect' paragraph='Forge new ventures; expand horizons' />
                 <Container>
-                    <p>Spakcomm invites you to reach out and initiate collaboration, opening doors to a suite of bespoke services. This junction is where potential meets expertise, and where your ideas are set in motion with our dedicated team, ready to transform vision into reality.</p>
+                    <p className='text-justify'>Spakcomm invites you to reach out and initiate collaboration, opening doors to a suite of bespoke services. This junction is where potential meets expertise, and where your ideas are set in motion with our dedicated team, ready to transform vision into reality.</p>
                 </Container>
 
                 <Container className='connect-wrapper'>
@@ -79,11 +79,8 @@ const Index: React.FC = () => {
 
                             <div className='connect-left-connect'>
                                 <p>Spakcomm Solutions Pvt. Ltd.</p>
-                                <p> 417, 4th Floor, New Sonal Industry,
-                                    Building No. 2, Opp. Hotel Sai Palace Grand,
-                                    Link Road, Malad (W), Mumbai 400064.
-                                </p>
-                                <p>+91 98332 41540</p>
+                                <p> Mumbai</p>
+                                <p>+91 93240 47049</p>
                                 <p>contact@spakcomm.com</p>
                             </div>
                         </Col>
@@ -148,16 +145,6 @@ const Index: React.FC = () => {
                                 </Button>
                             </Form>
 
-                        </Col>
-                    </Row>
-                </Container>
-
-                <Container className='home-before-footer'>
-                    <Row>
-                        <Col lg={8}>
-                            <strong>
-                                Creative Visionaries. Expert Innovators. Artful Creators. Design Maestros. Trailblazing Artists. Fantasy Weavers. Conceptual Geniuses. Pioneer Craftsmen. Leading Inventors.
-                            </strong>
                         </Col>
                     </Row>
                 </Container>

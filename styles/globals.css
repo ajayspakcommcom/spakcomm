@@ -191,7 +191,8 @@ body {
 .custom-btn:hover,
 .custom-btn:focus {
   font-family: 'Lt';
-  color: #000;
+  background-color: #0056b3;
+  color: #fff;
   padding: 8px 16px;
   font-size: 16px;
   border-radius: 5px;
@@ -234,7 +235,8 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 80px 20px;
+  /* padding: 80px 20px; */
+  padding: 80px 0;
   color: #fff;
 }
 
@@ -325,6 +327,7 @@ body {
   max-width: 450px;
   min-width: 350px;
   margin-top: 50px;
+  text-align: left;
 }
 
 .what-we-do-table tr>td:first-child {
@@ -349,7 +352,7 @@ body {
 }
 
 .banner-wrapper {
-  padding: 50px 0;
+  padding: 20px 0 50px;
 }
 
 .banner-wrapper .header-heading {
@@ -628,4 +631,38 @@ body {
 
 .full-img {
   width: 100%;
+}
+
+.text-justify {
+  text-align: justify !important;
+}
+
+.right-align {
+  text-align: right !important;
+}
+
+.fixed-nav {
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #0054A6 !important;
+}
+
+.dropdown-item:hover {
+  color: #0054A6 !important;
+  background-color: transparent !important;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: transparent !important;
+  color: #0054A6 !important;
+  outline: 0;
+}
+
+.fixed-nav .nav-link,
+.fixed-nav .nav-link:focus {
+  color: #fff;
 }
