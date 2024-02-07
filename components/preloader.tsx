@@ -14,4 +14,4 @@ const Preloader: React.FC = () => {
   );
 };
 
-export default Preloader;
+export default React.memo(Preloader);

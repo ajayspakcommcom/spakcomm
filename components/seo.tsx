@@ -22,4 +22,4 @@ const SEO: React.FC<SEOProps> = ({ pageTitle, description, keywords, author }) =
   </>
 );
 
-export default SEO;
+export default React.memo(SEO);

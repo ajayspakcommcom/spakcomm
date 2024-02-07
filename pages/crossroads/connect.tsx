@@ -4,28 +4,159 @@ import Wrapper from "@/layout/wrapper";
 import Header from '@/layout/header';
 import Footer from '@/layout/footer';
 import OtherHeader from '@/components/other-header';
-import { Col, Container, Row } from 'react-bootstrap';
-import Image from 'next/image';
+import { Col, Container, Row, Form, Button, FormGroup } from 'react-bootstrap';
+import { useFormik } from 'formik';
+import { connectSchema } from '@/validation/validationSchemas';
+
+const apiEndpoint = `${process.env.NEXT_PUBLIC_API_URL}`;
 
 
 const Index: React.FC = () => {
+
+    const [loading, setLoading] = React.useState(false);
+
+
+
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            email: '',
+            mobile: '',
+            message: ''
+        },
+        validationSchema: connectSchema,
+        onSubmit: async (values, { resetForm }) => {
+
+            setLoading(true);
+
+            const dataObj = { ...values, type: 'CREATE' }
+
+            const postData = async () => {
+                try {
+
+                    const response = await fetch(apiEndpoint + 'connect', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(dataObj),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    const data = await response.json();
+                    setLoading(false);
+                    resetForm();
+                    console.log('Success:', data);
+                } catch (error) {
+                    console.error('Error:', error);
+                    setLoading(false);
+                }
+            };
+
+            await postData();
+
+        }
+    });
+
     return (
         <>
             <SEO pageTitle={'Connect'} description={'Description'} keywords={'Keywords'} author={'Author'} />
             <Header />
             <Wrapper>
-                <OtherHeader img='origin.png' heading='Connect' paragraph='The heart & purpose of Spakcomm' />
+                <OtherHeader img='origin.png' heading='Connect' paragraph='Forge new ventures; expand horizons' />
                 <Container>
-                    <p>In the energetic alleys of Mumbai, a dream took form in 2008, a vision that promised to transform the face of branding and creative communication. Spakcomm was not just founded; it was carefully crafted from a vision that sought to blend artistry with purpose, innovation with tradition. The seedling of passion planted in a modest apartment sprouted into a thriving ecosystem where ideas flourish, narratives are woven, and brands find their true essence. The birth of Spakcomm was a testament to the conviction that branding could be a poetic venture, where each creation sings its own song, echoing the vibrant hues and dynamic pulse of its birthplace.</p>
-                    <Image src={require('../../public/assets/img/center-img.png')} className='img-fluid p-v-30' alt='center img' />
-                    <p>With each endeavor, we reaffirm our commitment to not only be conveyors of messages but to be the confidants of brands that seek to leave a lasting imprint in the hearts of their audience. We are the nurturers of dreams, the custodians of authenticity, relentlessly striving to amplify the unique heartbeat of each brand we collaborate with. Our purpose is crystal clear – to foster spaces where creativity blossoms in its truest form, where ideas are celebrated and narratives are nurtured with integrity and love. In the grand tapestry of digital narratives, we are the artisans, threading the heart and soul of Spakcomm into every project, every campaign, and every connection we forge, weaving a world where every story matters, where every brand finds its true home.</p>
+                    <p>Spakcomm invites you to reach out and initiate collaboration, opening doors to a suite of bespoke services. This junction is where potential meets expertise, and where your ideas are set in motion with our dedicated team, ready to transform vision into reality.</p>
+                </Container>
+
+                <Container className='connect-wrapper'>
+                    <Row>
+                        <Col>
+
+                            <h3 className='h3'>Hoping to hear from you soon.</h3>
+
+                            <div className='connect-left-connect'>
+                                <p>Spakcomm Solutions Pvt. Ltd.</p>
+                                <p> 417, 4th Floor, New Sonal Industry,
+                                    Building No. 2, Opp. Hotel Sai Palace Grand,
+                                    Link Road, Malad (W), Mumbai 400064.
+                                </p>
+                                <p>+91 98332 41540</p>
+                                <p>contact@spakcomm.com</p>
+                            </div>
+                        </Col>
+                        <Col>
+
+                            <Form onSubmit={formik.handleSubmit}>
+                                <FormGroup controlId="name" className='mb-15'>
+                                    <Form.Control
+                                        type="text"
+                                        name="name"
+                                        placeholder='Name'
+                                        value={formik.values.name}
+                                        onChange={formik.handleChange}
+                                        isInvalid={formik.touched.name && !!formik.errors.name}
+                                        className='spak-input'
+                                    />
+                                    <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
+                                </FormGroup>
+
+                                <FormGroup controlId="email" className='mb-15'>
+                                    <Form.Control
+                                        type="email"
+                                        name="email"
+                                        placeholder='Email'
+                                        value={formik.values.email}
+                                        onChange={formik.handleChange}
+                                        isInvalid={formik.touched.email && !!formik.errors.email}
+                                        className='spak-input'
+                                    />
+                                    <Form.Control.Feedback type="invalid">{formik.errors.email}</Form.Control.Feedback>
+                                </FormGroup>
+
+                                <FormGroup controlId="mobile" className='mb-15'>
+                                    <Form.Control
+                                        type="text"
+                                        name="mobile"
+                                        placeholder='Mobile No'
+                                        value={formik.values.mobile}
+                                        onChange={formik.handleChange}
+                                        isInvalid={formik.touched.mobile && !!formik.errors.mobile}
+                                        className='spak-input'
+                                    />
+                                    <Form.Control.Feedback type="invalid">{formik.errors.mobile}</Form.Control.Feedback>
+                                </FormGroup>
+
+                                <FormGroup controlId="message" className='mb-15'>
+                                    <Form.Control
+                                        as="textarea" rows={6}
+                                        type="text"
+                                        name="message"
+                                        placeholder='Message'
+                                        value={formik.values.message}
+                                        onChange={formik.handleChange}
+                                        isInvalid={formik.touched.message && !!formik.errors.message}
+                                        className='spak-input'
+                                    />
+                                    <Form.Control.Feedback type="invalid">{formik.errors.message}</Form.Control.Feedback>
+                                </FormGroup>
+
+                                <Button variant="primary" type="submit" className='spak-btn' disabled={loading ? true : false}>
+                                    {loading ? 'Submitting...' : 'Submit'}
+                                </Button>
+                            </Form>
+
+                        </Col>
+                    </Row>
                 </Container>
 
                 <Container className='home-before-footer'>
                     <Row>
                         <Col lg={8}>
                             <strong>
-                                Strategic Dreamers. Dynamic Illustrators. Your Brand’s Reliable Guardian. Passionate Creators. Insightful Collaborators. Design Maestros. Imagination Wizards. Your Zealous Associates.
+                                Creative Visionaries. Expert Innovators. Artful Creators. Design Maestros. Trailblazing Artists. Fantasy Weavers. Conceptual Geniuses. Pioneer Craftsmen. Leading Inventors.
                             </strong>
                         </Col>
                     </Row>

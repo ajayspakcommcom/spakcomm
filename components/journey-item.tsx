@@ -24,4 +24,4 @@ const JourneyItem: React.FC<JourneyItemProps> = ({ img = '', heading = 'Heading 
     </>
 );
 
-export default JourneyItem;
+export default React.memo(JourneyItem);

@@ -8,6 +8,8 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Wrapper from '@/layout/wrapper';
+import RecentProject from '@/components/recent-project';
+import ClientTele from '@/components/client-tele';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -82,38 +84,11 @@ export default function Home() {
           </Row>
         </Container>
 
+        <RecentProject />
 
-        <Container className='what-we-do-container'>
-          <Row>
-            <Col>
-              <h2>Recent projects</h2>
-            </Col>
-          </Row>
-          <Row>
-            <Col lg={3} className='my-col'><Image src={require('../public/assets/img/projects/1.png')} className='img-fluid' alt='project' /></Col>
-            <Col lg={3} className='my-col'><Image src={require('../public/assets/img/projects/1.png')} className='img-fluid' alt='project' /></Col>
-            <Col lg={3} className='my-col'><Image src={require('../public/assets/img/projects/1.png')} className='img-fluid' alt='project' /></Col>
-            <Col lg={3} className='my-col'><Image src={require('../public/assets/img/projects/1.png')} className='img-fluid' alt='project' /></Col>
-            <Col lg={3} className='my-col'><Image src={require('../public/assets/img/projects/1.png')} className='img-fluid' alt='project' /></Col>
-            <Col lg={3} className='my-col'><Image src={require('../public/assets/img/projects/1.png')} className='img-fluid' alt='project' /></Col>
-            <Col lg={3} className='my-col'><Image src={require('../public/assets/img/projects/1.png')} className='img-fluid' alt='project' /></Col>
-            <Col lg={3} className='my-col'><Image src={require('../public/assets/img/projects/1.png')} className='img-fluid' alt='project' /></Col>
-            <Col lg={3} className='my-col'><Image src={require('../public/assets/img/projects/1.png')} className='img-fluid' alt='project' /></Col>
-            <Col lg={3} className='my-col'><Image src={require('../public/assets/img/projects/1.png')} className='img-fluid' alt='project' /></Col>
-            <Col lg={3} className='my-col'><Image src={require('../public/assets/img/projects/1.png')} className='img-fluid' alt='project' /></Col>
-            <Col lg={3} className='my-col'><Image src={require('../public/assets/img/projects/1.png')} className='img-fluid' alt='project' /></Col>
-            <Col lg={3} className='my-col'><Image src={require('../public/assets/img/projects/1.png')} className='img-fluid' alt='project' /></Col>
-            <Col lg={3} className='my-col'><Image src={require('../public/assets/img/projects/1.png')} className='img-fluid' alt='project' /></Col>
-            <Col lg={3} className='my-col'><Image src={require('../public/assets/img/projects/1.png')} className='img-fluid' alt='project' /></Col>
-            <Col lg={3} className='my-col'><Image src={require('../public/assets/img/projects/1.png')} className='img-fluid' alt='project' /></Col>
-          </Row>
-          <Row>
-            <Col lg={3} className='my-col'>
-              <button className="custom-btn">All Project »</button>
-            </Col>
-          </Row>
-        </Container>
-
+        <div className='client-section'>
+          <ClientTele />
+        </div>
 
         <Container className='home-before-footer'>
           <Row>

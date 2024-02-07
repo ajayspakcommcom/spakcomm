@@ -1,0 +1,120 @@
+
+ [
+    {
+        "id": 1,
+        "imagePath": "branding.png",
+        "text": "Branding",
+        "detail": {
+            "title": "Branding + Identity",
+            "subTitle": "Crafting identities that resonate deeply",
+            "img": "",
+            "headingPara": "Branding + Identity is the art and science of connecting a company with its community. At Spakcomm, we sculpt your brand’s essence into a tangible identity that speaks volumes without saying a word. Through meticulous research and creative exploration, we craft logos, define color palettes, and construct narratives that resonate with your audience. Our approach is holistic; we ensure that every aspect of your brand, from business cards to billboards, works in unison to tell a cohesive story. We don’t just design; we strategize and implement branding solutions that capture your business’s spirit and engage your customers on a personal level.",
+            "service": ["Comprehensive Brand Analysis", "Cohesive Visual Strategy", "Custom Logo and Identity Design", "Consistent Brand Messaging", "Cross-Platform Identity Coherence"],
+            "bottomPara": "Imaginative Minds. Masterful Artists. Creative Visionaries. Genius Designers. Trailblazing Artisans. Sculptors of Dreams. Innovative Conceptualists. Crafting Virtuosos. Leading Creators."
+        }
+    },
+    {
+        "id": 2,
+        "imagePath": "campaign.png",
+        "text": "Campaign",
+        "detail": {
+            "title": "Campaign",
+            "subTitle": "Campaign that resonate deeply",
+            "img": "",
+            "headingPara": "Campaign is the art and science of connecting a company with its community. At Spakcomm, we sculpt your brand’s essence into a tangible identity that speaks volumes without saying a word. Through meticulous research and creative exploration, we craft logos, define color palettes, and construct narratives that resonate with your audience. Our approach is holistic; we ensure that every aspect of your brand, from business cards to billboards, works in unison to tell a cohesive story. We don’t just design; we strategize and implement branding solutions that capture your business’s spirit and engage your customers on a personal level.",
+            "service": ["Comprehensive Brand Analysis", "Cohesive Visual Strategy", "Custom Logo and Identity Design", "Consistent Brand Messaging", "Cross-Platform Identity Coherence"],
+            "bottomPara": "Imaginative Minds. Masterful Artists. Creative Visionaries. Genius Designers. Trailblazing Artisans. Sculptors of Dreams. Innovative Conceptualists. Crafting Virtuosos. Leading Creators."
+        }
+    },
+    {
+        "id": 3,
+        "imagePath": "cme.png",
+        "text": "Cme",
+        "detail": {
+            "title": "Cme",
+            "subTitle": "CrafCme that resonate deeply",
+            "img": "",
+            "headingPara": "Cme is the art and science of connecting a company with its community. At Spakcomm, we sculpt your brand’s essence into a tangible identity that speaks volumes without saying a word. Through meticulous research and creative exploration, we craft logos, define color palettes, and construct narratives that resonate with your audience. Our approach is holistic; we ensure that every aspect of your brand, from business cards to billboards, works in unison to tell a cohesive story. We don’t just design; we strategize and implement branding solutions that capture your business’s spirit and engage your customers on a personal level.",
+            "service": ["Comprehensive Brand Analysis", "Cohesive Visual Strategy", "Custom Logo and Identity Design", "Consistent Brand Messaging", "Cross-Platform Identity Coherence"],
+            "bottomPara": "Imaginative Minds. Masterful Artists. Creative Visionaries. Genius Designers. Trailblazing Artisans. Sculptors of Dreams. Innovative Conceptualists. Crafting Virtuosos. Leading Creators."
+        }
+    },
+    {
+        "id": 4,
+        "imagePath": "design.png",
+        "text": "Design",
+        "detail": {
+            "title": "Design",
+            "subTitle": "Design that resonate deeply",
+            "img": "",
+            "headingPara": "Design is the art and science of connecting a company with its community. At Spakcomm, we sculpt your brand’s essence into a tangible identity that speaks volumes without saying a word. Through meticulous research and creative exploration, we craft logos, define color palettes, and construct narratives that resonate with your audience. Our approach is holistic; we ensure that every aspect of your brand, from business cards to billboards, works in unison to tell a cohesive story. We don’t just design; we strategize and implement branding solutions that capture your business’s spirit and engage your customers on a personal level.",
+            "service": ["Comprehensive Brand Analysis", "Cohesive Visual Strategy", "Custom Logo and Identity Design", "Consistent Brand Messaging", "Cross-Platform Identity Coherence"],
+            "bottomPara": "Imaginative Minds. Masterful Artists. Creative Visionaries. Genius Designers. Trailblazing Artisans. Sculptors of Dreams. Innovative Conceptualists. Crafting Virtuosos. Leading Creators."
+        }
+    },
+    {
+        "id": 5,
+        "imagePath": "digital.png",
+        "text": "Digital",
+        "detail": {
+            "title": "Digital",
+            "subTitle": "Digital that resonate deeply",
+            "img": "",
+            "headingPara": "Digital is the art and science of connecting a company with its community. At Spakcomm, we sculpt your brand’s essence into a tangible identity that speaks volumes without saying a word. Through meticulous research and creative exploration, we craft logos, define color palettes, and construct narratives that resonate with your audience. Our approach is holistic; we ensure that every aspect of your brand, from business cards to billboards, works in unison to tell a cohesive story. We don’t just design; we strategize and implement branding solutions that capture your business’s spirit and engage your customers on a personal level.",
+            "service": ["Comprehensive Brand Analysis", "Cohesive Visual Strategy", "Custom Logo and Identity Design", "Consistent Brand Messaging", "Cross-Platform Identity Coherence"],
+            "bottomPara": "Imaginative Minds. Masterful Artists. Creative Visionaries. Genius Designers. Trailblazing Artisans. Sculptors of Dreams. Innovative Conceptualists. Crafting Virtuosos. Leading Creators."
+        }
+    },
+    {
+        "id": 6,
+        "imagePath": "motion.png",
+        "text": "Motion",
+        "detail": {
+            "title": "Motion",
+            "subTitle": "Motion that resonate deeply",
+            "img": "",
+            "headingPara": "Motion is the art and science of connecting a company with its community. At Spakcomm, we sculpt your brand’s essence into a tangible identity that speaks volumes without saying a word. Through meticulous research and creative exploration, we craft logos, define color palettes, and construct narratives that resonate with your audience. Our approach is holistic; we ensure that every aspect of your brand, from business cards to billboards, works in unison to tell a cohesive story. We don’t just design; we strategize and implement branding solutions that capture your business’s spirit and engage your customers on a personal level.",
+            "service": ["Comprehensive Brand Analysis", "Cohesive Visual Strategy", "Custom Logo and Identity Design", "Consistent Brand Messaging", "Cross-Platform Identity Coherence"],
+            "bottomPara": "Imaginative Minds. Masterful Artists. Creative Visionaries. Genius Designers. Trailblazing Artisans. Sculptors of Dreams. Innovative Conceptualists. Crafting Virtuosos. Leading Creators."
+        }
+    },
+    {
+        "id": 7,
+        "imagePath": "packaging.png",
+        "text": "Packaging",
+        "detail": {
+            "title": "Packaging",
+            "subTitle": "Packaging that resonate deeply",
+            "img": "",
+            "headingPara": "Packaging is the art and science of connecting a company with its community. At Spakcomm, we sculpt your brand’s essence into a tangible identity that speaks volumes without saying a word. Through meticulous research and creative exploration, we craft logos, define color palettes, and construct narratives that resonate with your audience. Our approach is holistic; we ensure that every aspect of your brand, from business cards to billboards, works in unison to tell a cohesive story. We don’t just design; we strategize and implement branding solutions that capture your business’s spirit and engage your customers on a personal level.",
+            "service": ["Comprehensive Brand Analysis", "Cohesive Visual Strategy", "Custom Logo and Identity Design", "Consistent Brand Messaging", "Cross-Platform Identity Coherence"],
+            "bottomPara": "Imaginative Minds. Masterful Artists. Creative Visionaries. Genius Designers. Trailblazing Artisans. Sculptors of Dreams. Innovative Conceptualists. Crafting Virtuosos. Leading Creators."
+        }
+    },
+    {
+        "id": 8,
+        "imagePath": "skill-building.png",
+        "text": "Skill-Building",
+        "detail": {
+            "title": "Skill-Building",
+            "subTitle": "Skill-Building that resonate deeply",
+            "img": "",
+            "headingPara": "Skill-Building is the art and science of connecting a company with its community. At Spakcomm, we sculpt your brand’s essence into a tangible identity that speaks volumes without saying a word. Through meticulous research and creative exploration, we craft logos, define color palettes, and construct narratives that resonate with your audience. Our approach is holistic; we ensure that every aspect of your brand, from business cards to billboards, works in unison to tell a cohesive story. We don’t just design; we strategize and implement branding solutions that capture your business’s spirit and engage your customers on a personal level.",
+            "service": ["Comprehensive Brand Analysis", "Cohesive Visual Strategy", "Custom Logo and Identity Design", "Consistent Brand Messaging", "Cross-Platform Identity Coherence"],
+            "bottomPara": "Imaginative Minds. Masterful Artists. Creative Visionaries. Genius Designers. Trailblazing Artisans. Sculptors of Dreams. Innovative Conceptualists. Crafting Virtuosos. Leading Creators."
+        }
+    },
+    {
+        "id": 9,
+        "imagePath": "ui-ux.png",
+        "text": "Ui-Ux",
+        "detail": {
+            "title": "Ui-Ux",
+            "subTitle": "Ui-Ux that resonate deeply",
+            "img": "",
+            "headingPara": "Ui-Ux is the art and science of connecting a company with its community. At Spakcomm, we sculpt your brand’s essence into a tangible identity that speaks volumes without saying a word. Through meticulous research and creative exploration, we craft logos, define color palettes, and construct narratives that resonate with your audience. Our approach is holistic; we ensure that every aspect of your brand, from business cards to billboards, works in unison to tell a cohesive story. We don’t just design; we strategize and implement branding solutions that capture your business’s spirit and engage your customers on a personal level.",
+            "service": ["Comprehensive Brand Analysis", "Cohesive Visual Strategy", "Custom Logo and Identity Design", "Consistent Brand Messaging", "Cross-Platform Identity Coherence"],
+            "bottomPara": "Imaginative Minds. Masterful Artists. Creative Visionaries. Genius Designers. Trailblazing Artisans. Sculptors of Dreams. Innovative Conceptualists. Crafting Virtuosos. Leading Creators."
+        }
+    }
+]

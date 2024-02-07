@@ -21,7 +21,7 @@ const OtherHeader: React.FC<OtherHeaderProps> = ({ img = '', heading = 'Heading 
                         </div>
                     </Col>
                     <Col lg={9}>
-                        {img && <Image src={require(`../public/assets/img/banner/${img}`)} className='img-fluid' alt={heading} />}
+                        {img && <Image src={require(`../public/assets/img/banner/${img}`)} className='full-img' alt={heading} />}
                     </Col>
                 </Row>
             </Container>
@@ -29,4 +29,4 @@ const OtherHeader: React.FC<OtherHeaderProps> = ({ img = '', heading = 'Heading 
     </>
 );
 
-export default OtherHeader;
+export default React.memo(OtherHeader);

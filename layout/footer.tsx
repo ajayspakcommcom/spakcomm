@@ -6,10 +6,18 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faFacebookF, faInstagram, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
+import { useRouter } from 'next/router';
 
 
 
 const Footer: React.FC = () => {
+
+    const router = useRouter();
+
+    const handleNavigation = (string: string) => {
+        router.push(string);
+    };
+
     return (
         <>
             <footer className="footer text-white py-4">
@@ -18,7 +26,7 @@ const Footer: React.FC = () => {
                         <div className="col-md-4">
                             <h5><Image src={require('../public/assets/img/logo-w.png')} alt='Spakcomm Logo' /></h5>
                             <p className='footer-text'>Seeking to elevate your brand?<br />You've landed in the perfect spot.</p>
-                            <button className="custom-btn">Connect with us »</button>
+                            <button className="custom-btn" onClick={() => handleNavigation('/crossroads/connect')}>Connect with us »</button>
 
                             <div className="social-media mt-3">
                                 <a href="#" className="me-4 text-white"><FontAwesomeIcon icon={faTwitter} /></a>
@@ -41,7 +49,7 @@ const Footer: React.FC = () => {
                             <ul className="list-unstyled custom-bullets">
                                 <li><Link href="/craftsmanship/canvas">Canvas</Link></li>
                                 <li><Link href="/craftsmanship/digital-tales">Digital Tales</Link></li>
-                                <li><Link href="/craftsmanship/echoes">Echoes</Link></li>
+                                <li><Link href="/craftsmanship/experties">Experties</Link></li>
                             </ul>
                         </div>
                         <div className="col-md-2">

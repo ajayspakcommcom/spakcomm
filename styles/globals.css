@@ -108,7 +108,7 @@ body {
 .footer h5,
 .footer h6 {
   color: #ffffff;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0;
   font-family: 'Md';
 }
 
@@ -142,7 +142,7 @@ body {
   list-style: none;
   padding-left: 0;
   margin-bottom: 0;
-  margin-left: 15px;
+  margin-left: 0;
 }
 
 .footer ul li {
@@ -154,7 +154,15 @@ body {
   display: block;
   font-family: 'Lt';
   font-size: 14px;
-  /* Makes the whole line clickable */
+  transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -webkit-transition: all 0.5s ease-in-out;
+}
+
+.footer ul li a:hover {
+  text-decoration: underline;
 }
 
 .footer .footer-text {
@@ -192,8 +200,9 @@ body {
 }
 
 .list-unstyled.custom-bullets>li {
-  list-style-type: disc;
-  padding-left: 1rem;
+  list-style-type: none;
+  padding-left: 0;
+  padding-bottom: 5px;
 }
 
 /* Ensure the links are white as per your className */
@@ -408,4 +417,215 @@ body {
 
 .pointer {
   cursor: pointer;
+}
+
+.client-tel-wrappwer,
+.testimonial-wrappwer {
+  background-color: #f2f2f2;
+  padding-top: 15px;
+  padding-bottom: 30px;
+}
+
+.testimonial-wrappwer {
+  background-color: transparent;
+}
+
+.testimonial-wrappwer .testimonial-box {
+  background-color: #f2f2f2;
+  padding: 50px 50px;
+}
+
+.testimonial-wrappwer .testimonial-box>.content {
+  margin-top: 10px;
+}
+
+.testimonial-wrappwer .testimonial-box .header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+
+.testimonial-wrappwer .testimonial-box .header .content {
+  line-height: 19px;
+  font-weight: 300;
+}
+
+
+
+.testimonial-wrappwer .testimonial-box .content p {
+  margin-bottom: 0;
+  font-size: 15px;
+  line-height: 20px;
+  color: #8c8c8c;
+}
+
+.testimonial-wrappwer .testimonial-box .header .content * {
+  display: block;
+}
+
+.testimonial-wrappwer .testimonial-box .header img {
+  margin-right: 15px;
+}
+
+.client-tel-wrappwer h2,
+.testimonial-wrappwer h2 {
+  margin-bottom: 20px;
+}
+
+.testimonial-wrappwer {
+  position: relative;
+}
+
+.testimonial-wrappwer .swiper-button-next,
+.testimonial-wrappwer .swiper-button-prev {
+  color: #000;
+}
+
+.testimonial-wrappwer .swiper-button-next {
+  position: absolute;
+  top: 50%;
+  transform: translate(30px, -50%);
+}
+
+.testimonial-wrappwer .swiper-button-prev {
+  position: absolute;
+  top: 50%;
+  transform: translate(-30px, -50%);
+}
+
+.testimonial-wrappwer .swiper-button-next:after,
+.testimonial-wrappwer .swiper-button-prev:after {
+  font-size: 30px;
+}
+
+.client-section {
+  margin-bottom: 30px;
+}
+
+.experties-wrapper .content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.experties-wrapper .box {
+  width: calc(33.33% - 10px);
+  margin-bottom: 30px;
+  text-align: center;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+}
+
+.experties-wrapper .box>div>div {
+  background-color: #f2f2f2;
+  padding: 30px 30px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+}
+
+.experties-wrapper .box>div>span {
+  display: block;
+}
+
+.experties-wrapper {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.service-ul {
+  list-style-type: disc;
+  color: #0054A6;
+  padding: 0 0 0 15px;
+}
+
+.service-ul>li {
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
+
+.service-ul>li>span {
+  color: #000;
+  width: 100%;
+  display: block;
+  border-bottom: 2px solid #f2f2f2;
+  padding-bottom: 8px;
+  font-size: 26px;
+}
+
+.mb-15 {
+  margin-bottom: 15px;
+}
+
+.spak-input {
+  border-radius: 1px;
+  min-height: 45px;
+}
+
+.spak-btn {
+  border-radius: 2px;
+  min-height: 45px;
+  width: 100%;
+  background-color: #0054A6;
+}
+
+.hr-btn {
+  background-color: #0054A6;
+  border-radius: 2px;
+}
+
+.h3 {
+  font-size: 30px;
+}
+
+.connect-wrapper {
+  padding-bottom: 40px;
+  padding-top: 40px;
+}
+
+.connect-left-connect {
+  padding-top: 15px;
+}
+
+.connect-left-connect p {
+  margin-bottom: 10px;
+  line-height: 20px;
+}
+
+.join-the-tale-wrapper {
+  background-color: #f2f2f2;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding-bottom: 40px;
+}
+
+.join-item {
+  padding-left: 30px;
+  padding-top: 30px;
+  padding-bottom: 10px;
+}
+
+.join-resposibility {
+  padding-left: 30px;
+  padding-top: 30px;
+}
+
+.join-resposibility>ul {
+  padding: 0 0 0 15px;
+  margin-bottom: 40px;
+}
+
+.form-control::file-selector-button {
+  min-height: 45px;
+}
+
+.close-modal {
+  text-align: right;
+  padding: 0 0 15px 0;
+}
+
+.full-img {
+  width: 100%;
 }
