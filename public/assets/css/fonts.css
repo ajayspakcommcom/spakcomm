@@ -1,11 +1,11 @@
 @font-face {
     font-family: 'Lt';
-    src: url('../fonts/Lt/Lt.eot');
-    src: url('../fonts/Lt/Lt.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/Lt/Lt.woff2') format('woff2'),
-        url('../fonts/Lt/Lt.woff') format('woff'),
-        url('../fonts/Lt/Lt.ttf') format('truetype'),
-        url('../fonts/Lt/Lt.svg#Lt') format('svg');
+    src: url('../fonts/light/HelveticaNeue-Light.eot');
+    src: url('../fonts/light/HelveticaNeue-Light.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/light/HelveticaNeue-Light.woff2') format('woff2'),
+        url('../fonts/light/HelveticaNeue-Light.woff') format('woff'),
+        url('../fonts/light/HelveticaNeue-Light.ttf') format('truetype'),
+        url('../fonts/light/HelveticaNeue-Light.svg#Lt') format('svg');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -13,25 +13,25 @@
 
 @font-face {
     font-family: 'Md';
-    src: url('../fonts/Md/Md.eot');
-    src: url('../fonts/Md/Md.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/Md/Md.woff2') format('woff2'),
-        url('../fonts/Md/Md.woff') format('woff'),
-        url('../fonts/Md/Md.ttf') format('truetype'),
-        url('../fonts/Md/Md.svg#Md') format('svg');
+    src: url('../fonts/medium/HelveticaNeue-Medium.eot');
+    src: url('../fonts/medium/HelveticaNeue-Medium.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/medium/HelveticaNeue-Medium.woff2') format('woff2'),
+        url('../fonts/medium/HelveticaNeue-Medium.woff') format('woff'),
+        url('../fonts/medium/HelveticaNeue-Medium.ttf') format('truetype'),
+        url('../fonts/medium/HelveticaNeue-Medium.svg#Md') format('svg');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Roman';
-    src: url('../fonts/roman/Roman.eot');
-    src: url('../fonts/roman/Roman.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/roman/Roman.woff2') format('woff2'),
-        url('../fonts/roman/Roman.woff') format('woff'),
-        url('../fonts/roman/Roman.ttf') format('truetype'),
-        url('../fonts/roman/Roman.svg#Roman') format('svg');
+    font-family: 'Regular';
+    src: url('../fonts/regular/HelveticaNeue.eot');
+    src: url('../fonts/regular/HelveticaNeue.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/regular/HelveticaNeue.woff2') format('woff2'),
+        url('../fonts/regular/HelveticaNeue.woff') format('woff'),
+        url('../fonts/regular/HelveticaNeue.ttf') format('truetype'),
+        url('../fonts/regular/HelveticaNeue.svg#Regular') format('svg');
     font-weight: normal;
     font-style: normal;
     font-display: swap;

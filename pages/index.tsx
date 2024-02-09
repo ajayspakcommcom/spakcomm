@@ -27,7 +27,7 @@ export default function Home() {
             <Col lg={6} className='left-verticla-wrapper'>
               <div className="hero-section">
                 <div className="hero-content">
-                  <h1>The Nexus of Authenticity & Innovation in Branding.</h1>
+                  <h1>The Nexus of <br /> Authenticity & Innovation <br /> in Branding.</h1>
                   <button className="custom-btn">Discover »</button>
                 </div>
               </div>

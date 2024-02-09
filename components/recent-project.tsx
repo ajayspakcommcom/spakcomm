@@ -33,7 +33,7 @@ const projectData: RecentProject[] = [
 
 const RecentProject: React.FC<RecentProjectProps> = ({ }) => (
     <>
-        <Container className='what-we-do-container'>
+        <Container className='what-we-do-container recent-project-wrapper'>
             <Row>
                 <Col>
                     <h2>Recent projects</h2>
