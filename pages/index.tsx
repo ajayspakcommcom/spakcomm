@@ -10,14 +10,19 @@ import Col from 'react-bootstrap/Col';
 import Wrapper from '@/layout/wrapper';
 import RecentProject from '@/components/recent-project';
 import ClientTele from '@/components/client-tele';
+import { GetServerSideProps } from 'next';
 
+interface SeoData {
+  pageTitle: string;
+  description: string;
+  keywords: string;
+  author: string;
+}
 
-const inter = Inter({ subsets: ['latin'] })
-
-export default function Home() {
+const Home: React.FC<SeoData> = ({ pageTitle, description, keywords, author }) => {
   return (
     <>
-      <SEO pageTitle={''} description={''} keywords={''} author={''} />
+      <SEO pageTitle={pageTitle} description={description} keywords={keywords} author={author} />
 
       <Header />
 
@@ -98,3 +103,21 @@ export default function Home() {
     </>
   )
 }
+
+export default Home;
+
+
+export const getServerSideProps: GetServerSideProps<SeoData> = async ({ }) => {
+  // Fetch SEO data from your API or database
+  const seoData: SeoData = {
+    pageTitle: 'SEO-Friendly Next.js Page',
+    description: 'This is a dummy SEO-friendly Next.js page.',
+    keywords: 'next.js, seo, example, dummy',
+    author: 'Your Name',
+  };
+
+  // Return SEO data as props
+  return {
+    props: seoData,
+  };
+};
