@@ -6,9 +6,9 @@ interface WrapperProps {
 
 const Wrapper: React.FC<WrapperProps> = ({ children }) => {
     return (
-        <>
+        <main>
             {children}
-        </>
+        </main>
     );
 };
 

@@ -1,0 +1,14 @@
+.error-component {
+    text-align: center;
+    width: 500px;
+    margin: 50px auto;
+}
+
+.error-component h1 {
+    font-size: 40px;
+    color: #ff0000;
+}
+
+.error-component p {
+    margin: 10px 0;
+}
