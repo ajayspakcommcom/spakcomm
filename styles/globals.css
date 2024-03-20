@@ -706,6 +706,8 @@ p {
 .nav-link,
 .dropdown-item {
   font-family: 'Lt';
+  font-weight: 900;
+  letter-spacing: 0.5px;
 }
 
 .social-media {
