@@ -60,7 +60,7 @@ const RecentProject: React.FC<RecentProjectProps> = ({ }) => {
                 </Row>
                 <Row>
                     <Col lg={3} className='my-col'>
-                        <button className="custom-btn" onClick={() => navigationHandler('/craftsmanship/experties')}>All Project »</button>
+                        <button className="custom-btn" onClick={() => navigationHandler('/craftsmanship/canvas')}>All Project »</button>
                     </Col>
                 </Row>
             </Container>

@@ -726,3 +726,8 @@ p {
   font-family: 'Lt';
   font-size: 30px;
 }
+
+.gallery-img>img {
+  width: 400px;
+  height: auto;
+}
