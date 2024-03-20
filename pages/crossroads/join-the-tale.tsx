@@ -7,10 +7,18 @@ import OtherHeader from '@/components/other-header';
 import { Col, Container, Row, Button, Modal, Form, FormGroup, CloseButton } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { joinTheTaleSchema } from '@/validation/validationSchemas';
+import { GetServerSideProps } from 'next';
+
+interface SeoData {
+    pageTitle: string;
+    description: string;
+    keywords: string;
+    author: string;
+}
 
 const apiEndpoint = `${process.env.NEXT_PUBLIC_API_URL}`;
 
-const Index: React.FC = () => {
+const Index: React.FC<SeoData> = ({ pageTitle, description, keywords, author }) => {
 
     const [show, setShow] = useState<boolean>(false);
 
@@ -72,7 +80,7 @@ const Index: React.FC = () => {
 
     return (
         <>
-            <SEO pageTitle={'Join The Tales'} description={'Description'} keywords={'Keywords'} author={'Author'} />
+            <SEO pageTitle={pageTitle} description={description} keywords={keywords} author={author} />
             <Header />
             <Wrapper>
                 <OtherHeader img='origin.png' heading='Join The Tales' paragraph='The heart & purpose of Spakcomm' />
@@ -212,3 +220,18 @@ const Index: React.FC = () => {
 };
 
 export default Index;
+
+export const getServerSideProps: GetServerSideProps<SeoData> = async ({ query, req, res, resolvedUrl, defaultLocale, draftMode, locale, locales, params, preview, previewData }) => {
+    // Fetch SEO data from your API or database
+    const seoData: SeoData = {
+        pageTitle: 'Spak Communication Pvt Ltd | Join The Table',
+        description: 'Desicription Join The Table',
+        keywords: 'Creative Agency, Digital Marketing, Website Design, Branding, Corporate Identity',
+        author: 'Shiv Kar',
+    };
+
+    // Return SEO data as props
+    return {
+        props: seoData,
+    };
+};

@@ -6,12 +6,20 @@ import Footer from '@/layout/footer';
 import OtherHeader from '@/components/other-header';
 import { Col, Container, Row } from 'react-bootstrap';
 import Image from 'next/image';
+import { GetServerSideProps } from 'next';
+
+interface SeoData {
+    pageTitle: string;
+    description: string;
+    keywords: string;
+    author: string;
+}
 
 
-const Index: React.FC = () => {
+const Index: React.FC<SeoData> = ({ pageTitle, description, keywords, author }) => {
     return (
         <>
-            <SEO pageTitle={'Digital Tales'} description={'Description'} keywords={'Keywords'} author={'Author'} />
+            <SEO pageTitle={pageTitle} description={description} keywords={keywords} author={author} />
             <Header />
             <Wrapper>
                 <OtherHeader img='origin.png' heading='Digital Tales' paragraph='The heart & purpose of Spakcomm' />
@@ -28,3 +36,18 @@ const Index: React.FC = () => {
 };
 
 export default Index;
+
+export const getServerSideProps: GetServerSideProps<SeoData> = async ({ query, req, res, resolvedUrl, defaultLocale, draftMode, locale, locales, params, preview, previewData }) => {
+    // Fetch SEO data from your API or database
+    const seoData: SeoData = {
+        pageTitle: 'Spak Communication Pvt Ltd | Digital Tales',
+        description: 'Desicription Digital Tales',
+        keywords: 'Creative Agency, Digital Marketing, Website Design, Branding, Corporate Identity',
+        author: 'Shiv Kar',
+    };
+
+    // Return SEO data as props
+    return {
+        props: seoData,
+    };
+};

@@ -16,10 +16,14 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Provider store={store}>
+        <Component {...pageProps} />
+      </Provider>
+
+      {/* <Provider store={store}>
         <PersistGate loading={<Preloader />} persistor={persistor}>
           <Component {...pageProps} />
         </PersistGate>
-      </Provider>
+      </Provider> */}
     </>
   )
 }

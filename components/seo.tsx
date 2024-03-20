@@ -12,7 +12,7 @@ interface SEOProps {
 const SEO: React.FC<SEOProps> = ({ pageTitle, description, keywords, author }) => (
   <>
     <Head>
-      <title> {pageTitle + ' Spak Communication Pvt Ltd'} </title>
+      <title> {pageTitle} </title>
       <meta charSet="UTF-8" />
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />

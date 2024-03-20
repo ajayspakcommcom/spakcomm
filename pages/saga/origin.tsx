@@ -5,13 +5,21 @@ import Header from '@/layout/header';
 import Footer from '@/layout/footer';
 import OtherHeader from '@/components/other-header';
 import { Col, Container, Row } from 'react-bootstrap';
+import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 
+interface SeoData {
+    pageTitle: string;
+    description: string;
+    keywords: string;
+    author: string;
+}
 
-const Index: React.FC = () => {
+
+const Index: React.FC<SeoData> = ({ pageTitle, description, keywords, author }) => {
     return (
         <>
-            <SEO pageTitle={'Origin'} description={'Description'} keywords={'Keywords'} author={'Author'} />
+            <SEO pageTitle={pageTitle} description={description} keywords={keywords} author={author} />
             <Header />
             <Wrapper>
                 <OtherHeader img='origin.png' heading='Origin' paragraph='The birth of Spakcomm' />
@@ -20,8 +28,6 @@ const Index: React.FC = () => {
                     <Image src={require('../../public/assets/img/center-img.png')} className='img-fluid p-v-30' alt='center img' />
                     <p className='text-justify'>As the sun rose on a new era of creativity, Spakcomm stood as a beacon of innovation, ready to chart a course into unexplored territories. A relentless pursuit for perfection and a hunger for carving out unique narratives became our guiding principles. From those initial moments, a fiery determination was ignited, propelling us to craft stories that resonate on a profound level, fostering connections that go beyond the visual. Our inception marks not just the birth of a creative agency but the dawn of a movement; a pledge to redefine the parameters of branding with passion, soul, and an unwavering commitment to authenticity. Spakcomm was, and remains, a vibrant testament to the magic that occurs when creativity meets purpose, blossoming into a sanctuary where brands come to life, blooming in full vibrant spectacle.</p>
                 </Container>
-
-
             </Wrapper>
             <Footer />
         </>
@@ -29,3 +35,18 @@ const Index: React.FC = () => {
 };
 
 export default Index;
+
+export const getServerSideProps: GetServerSideProps<SeoData> = async ({ query, req, res, resolvedUrl, defaultLocale, draftMode, locale, locales, params, preview, previewData }) => {
+    // Fetch SEO data from your API or database
+    const seoData: SeoData = {
+        pageTitle: 'Spak Communication Pvt Ltd | Origin',
+        description: 'Desicription Origion',
+        keywords: 'Creative Agency, Digital Marketing, Website Design, Branding, Corporate Identity',
+        author: 'Shiv Kar',
+    };
+
+    // Return SEO data as props
+    return {
+        props: seoData,
+    };
+};

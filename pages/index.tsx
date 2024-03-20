@@ -1,6 +1,4 @@
-import Head from 'next/head';
 import Image from 'next/image';
-import { Inter } from 'next/font/google';
 import Header from '@/layout/header';
 import SEO from '@/components/seo';
 import Footer from '@/layout/footer';
@@ -11,6 +9,8 @@ import Wrapper from '@/layout/wrapper';
 import RecentProject from '@/components/recent-project';
 import ClientTele from '@/components/client-tele';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 interface SeoData {
   pageTitle: string;
@@ -20,8 +20,19 @@ interface SeoData {
 }
 
 const Home: React.FC<SeoData> = ({ pageTitle, description, keywords, author }) => {
+
+  const router = useRouter();
+
+  const navigationHandler = (path: string) => {
+    router.push({
+      pathname: `${path}`,
+    });
+  };
+
+
   return (
     <>
+
       <SEO pageTitle={pageTitle} description={description} keywords={keywords} author={author} />
 
       <Header />
@@ -33,7 +44,7 @@ const Home: React.FC<SeoData> = ({ pageTitle, description, keywords, author }) =
               <div className="hero-section">
                 <div className="hero-content">
                   <h1>The Nexus of <br /> Authenticity & Innovation <br /> in Branding.</h1>
-                  <button className="custom-btn">Discover »</button>
+                  {/* <button className="custom-btn">Discover »</button> */}
                 </div>
               </div>
             </Col>
@@ -49,7 +60,7 @@ const Home: React.FC<SeoData> = ({ pageTitle, description, keywords, author }) =
           <div className="who-we-are">
             <h2>Who we are</h2>
             <p>Your creative partner, adept at devising tailored content strategies to amplify your business presence and connect meaningfully with your target audience.</p>
-            <button className="custom-btn m-0">Our Story »</button>
+            <button className="custom-btn m-0" onClick={() => navigationHandler('/saga/origin')}>Our Story »</button>
           </div>
         </Container>
 
@@ -59,7 +70,7 @@ const Home: React.FC<SeoData> = ({ pageTitle, description, keywords, author }) =
               <div className="what-we-do">
                 <h2>What we do</h2>
                 <p>Discover Spakcomm’s fusion of creativity and strategy, where each service is a gateway to transformative brand narratives and authentic digital connections. Elevate your brand’s journey with us.</p>
-                <button className="custom-btn m-0">See Our Expertise »</button>
+                <button className="custom-btn m-0" onClick={() => navigationHandler('/craftsmanship/experties')}>See Our Expertise »</button>
               </div>
             </Col>
             <Col lg={6} className='right-align'>
@@ -107,13 +118,13 @@ const Home: React.FC<SeoData> = ({ pageTitle, description, keywords, author }) =
 export default Home;
 
 
-export const getServerSideProps: GetServerSideProps<SeoData> = async ({ }) => {
+export const getServerSideProps: GetServerSideProps<SeoData> = async ({ query, req, res, resolvedUrl, defaultLocale, draftMode, locale, locales, params, preview, previewData }) => {
   // Fetch SEO data from your API or database
   const seoData: SeoData = {
-    pageTitle: 'SEO-Friendly Next.js Page',
-    description: 'This is a dummy SEO-friendly Next.js page.',
-    keywords: 'next.js, seo, example, dummy',
-    author: 'Your Name',
+    pageTitle: 'Spak Communication Pvt Ltd',
+    description: 'Desicription Index',
+    keywords: 'Creative Agency, Digital Marketing, Website Design, Branding, Corporate Identity,',
+    author: 'Shiv Kar',
   };
 
   // Return SEO data as props

@@ -14,21 +14,29 @@ import ExpertyProject from '@/model/ExpertyProject';
 import fs from 'fs';
 import path from 'path';
 import ServiceDetail from '@/components/service-detail';
+import { GetServerSideProps } from 'next';
+
+interface SeoData {
+    pageTitle: string;
+    description: string;
+    keywords: string;
+    author: string;
+}
+
 
 interface Props {
     item: ExpertyProject
 }
 
 const filePath = path.join(process.cwd(), 'data', 'experties.json');
-//console.log('filePath', filePath);
-
-
 
 const Index: React.FC<Props> = ({ item }) => {
 
     const [data, setData] = useState<ExpertyProject | null>(null);
 
     useEffect(() => {
+        console.log(item);
+
         setData(item)
 
         return () => setData(null);
@@ -74,28 +82,25 @@ export const getServerSideProps = async ({ params }: { params: { id: string } })
 
 
     try {
-        // Read the JSON file
         const jsonData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-
-        // Find the item by ID
         const item = jsonData.find((item: ExpertyProject) => item.id === parseInt(id, 10));
 
         if (!item) {
             return {
-                notFound: true, // Return a 404 page if the item is not found
+                notFound: true
             };
         }
 
-        // Return the item as props
         return {
             props: {
-                item,
-            },
+                item
+            }
         };
+
     } catch (error) {
         console.error(error);
         return {
-            notFound: true, // Handle errors and return a 404 page
+            notFound: true
         };
     }
 

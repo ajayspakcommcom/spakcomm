@@ -6,12 +6,21 @@ import Footer from '@/layout/footer';
 import OtherHeader from '@/components/other-header';
 import { Col, Container, Row } from 'react-bootstrap';
 import Image from 'next/image';
+import { GetServerSideProps } from 'next';
+
+interface SeoData {
+    pageTitle: string;
+    description: string;
+    keywords: string;
+    author: string;
+}
 
 
-const Index: React.FC = () => {
+const Index: React.FC<SeoData> = ({ pageTitle, description, keywords, author }) => {
+
     return (
         <>
-            <SEO pageTitle={'Conversations'} description={'Description'} keywords={'Keywords'} author={'Author'} />
+            <SEO pageTitle={pageTitle} description={description} keywords={keywords} author={author} />
             <Header />
             <Wrapper>
                 <OtherHeader img='origin.png' heading='Conversations' paragraph='The heart & purpose of Spakcomm' />
@@ -20,9 +29,6 @@ const Index: React.FC = () => {
                     <Image src={require('../../public/assets/img/center-img.png')} className='img-fluid p-v-30' alt='center img' />
                     <p className='text-justify'>With each endeavor, we reaffirm our commitment to not only be conveyors of messages but to be the confidants of brands that seek to leave a lasting imprint in the hearts of their audience. We are the nurturers of dreams, the custodians of authenticity, relentlessly striving to amplify the unique heartbeat of each brand we collaborate with. Our purpose is crystal clear – to foster spaces where creativity blossoms in its truest form, where ideas are celebrated and narratives are nurtured with integrity and love. In the grand tapestry of digital narratives, we are the artisans, threading the heart and soul of Spakcomm into every project, every campaign, and every connection we forge, weaving a world where every story matters, where every brand finds its true home.</p>
                 </Container>
-
-
-
             </Wrapper>
             <Footer />
         </>
@@ -30,3 +36,18 @@ const Index: React.FC = () => {
 };
 
 export default Index;
+
+export const getServerSideProps: GetServerSideProps<SeoData> = async ({ query, req, res, resolvedUrl, defaultLocale, draftMode, locale, locales, params, preview, previewData }) => {
+    // Fetch SEO data from your API or database
+    const seoData: SeoData = {
+        pageTitle: 'Spak Communication Pvt Ltd | Conversations',
+        description: 'Desicription Conversations',
+        keywords: 'Creative Agency, Digital Marketing, Website Design, Branding, Corporate Identity',
+        author: 'Shiv Kar',
+    };
+
+    // Return SEO data as props
+    return {
+        props: seoData,
+    };
+};
