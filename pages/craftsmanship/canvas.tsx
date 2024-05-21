@@ -18,15 +18,11 @@ interface SeoData {
 const galleyData = [
     { id: 1, imageUrl: '../assets/img/projects/BSV/Brochure/nexobrid-product-brochure.png', title: 'BSV Nexobrid Product Brochure', category: 'Pharma' },
     { id: 2, imageUrl: '../assets/img/projects/BSV/Brochure/nexobrid-product-monograph.png', title: 'BSV Nexobrid Product Monograph', category: 'Pharma' },
-
     { id: 3, imageUrl: '../assets/img/projects/BSV/IVA/crisavoc-iva.png', title: 'BSV Crisavoc Iva', category: 'Pharma' },
     { id: 4, imageUrl: '../assets/img/projects/BSV/IVA/nexobrid-iva.png', title: 'BSV Nexobrid Iva', category: 'Pharma' },
 ];
 
 const Index: React.FC<SeoData> = ({ pageTitle, description, keywords, author }) => {
-
-    const x = 10;
-    console.log(x);
 
     return (
         <>
