@@ -731,3 +731,14 @@ p {
   width: 400px;
   height: auto;
 }
+
+.light-gallery>.lg-react-element {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  column-gap: 15px;
+}
+
+.img-responsive {
+  max-width: 100%;
+  height: auto;
+}

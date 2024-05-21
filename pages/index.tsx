@@ -44,7 +44,6 @@ const Home: React.FC<SeoData> = ({ pageTitle, description, keywords, author }) =
               <div className="hero-section">
                 <div className="hero-content">
                   <h1>The Nexus of <br /> Authenticity & Innovation <br /> in Branding.</h1>
-                  {/* <button className="custom-btn">Discover »</button> */}
                 </div>
               </div>
             </Col>

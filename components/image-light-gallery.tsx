@@ -8,18 +8,21 @@ import 'lightgallery/scss/lg-zoom.scss';
 import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import lgZoom from 'lightgallery/plugins/zoom';
 
-
-interface ImageLightGalleryProps {
-  title?: string;
+interface galleryImg {
+  id: number;
+  imageUrl: string;
+  title: string;
+  category: string;
 }
 
-const imageUrls = [
-  './assets/img/projects/BSV/Brochure/1.png',
-  './assets/img/projects/BSV/Brochure/2.png',
-];
+interface ImageLightGalleryProps {
+  galleryImgData: galleryImg[];
+}
 
 
-const ImageLightGallery: React.FC<ImageLightGalleryProps> = ({ title }) => {
+
+
+const ImageLightGallery: React.FC<ImageLightGalleryProps> = ({ galleryImgData }) => {
 
   const onInit = () => {
     console.log('lightGallery has been initialized');
@@ -27,15 +30,15 @@ const ImageLightGallery: React.FC<ImageLightGalleryProps> = ({ title }) => {
 
   return (
     <>
-      <div className="App">
+      <div className="light-gallery">
         <LightGallery onInit={onInit} speed={500} plugins={[lgThumbnail, lgZoom]}>
-          <div>
-            {imageUrls.map((imageUrl, index) => (
-              <a key={index} href={imageUrl} className='gallery-img'>
-                <img alt={`Broucher ${index + 1}`} src={imageUrl} />
-              </a>
-            ))}
-          </div>
+
+          {galleryImgData.map((item, index) => (
+            <a key={item.id} href={item.imageUrl} className='gallery-img'>
+              <img alt={item.title} src={item.imageUrl} className='img-responsive' />
+            </a>
+          ))}
+
         </LightGallery>
       </div>
     </>
