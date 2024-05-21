@@ -24,7 +24,7 @@ const Index: React.FC<SeoData> = ({ pageTitle, description, keywords, author }) 
             <SEO pageTitle={pageTitle} description={description} keywords={keywords} author={author} />
             <Header />
             <Wrapper>
-                <OtherHeader img='origin.png' heading='Voices' paragraph='The heart & purpose of Spakcomm' />
+                <OtherHeader img='voices.png' heading='Voices' paragraph='The heart & purpose of Spakcomm' />
                 <TestimonialSwiper />
             </Wrapper>
             <Footer />

@@ -74,7 +74,7 @@ const Index: React.FC<SeoData> = ({ pageTitle, description, keywords, author }) 
             <SEO pageTitle={pageTitle} description={description} keywords={keywords} author={author} />
             <Header />
             <Wrapper>
-                <OtherHeader img='origin.png' heading='Connect' paragraph='Forge new ventures; expand horizons' />
+                <OtherHeader img='connect.png' heading='Connect' paragraph='Forge new ventures; expand horizons' />
                 <Container>
                     <p className='text-justify'>Spakcomm invites you to reach out and initiate collaboration, opening doors to a suite of bespoke services. This junction is where potential meets expertise, and where your ideas are set in motion with our dedicated team, ready to transform vision into reality.</p>
                 </Container>

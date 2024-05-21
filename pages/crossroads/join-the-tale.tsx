@@ -83,7 +83,7 @@ const Index: React.FC<SeoData> = ({ pageTitle, description, keywords, author }) 
             <SEO pageTitle={pageTitle} description={description} keywords={keywords} author={author} />
             <Header />
             <Wrapper>
-                <OtherHeader img='origin.png' heading='Join The Tales' paragraph='The heart & purpose of Spakcomm' />
+                <OtherHeader img='jointhetable.png' heading='Join The Tales' paragraph='The heart & purpose of Spakcomm' />
                 <Container>
                     <p className='text-justify'>“Join the Tale” offers a chance to weave your narrative into the fabric of Spakcomm’s evolving story. Here, opportunities abound for creative minds to contribute to our saga, helping to shape the future of our agency and the industry at large through innovation and shared vision.</p>
                 </Container>

@@ -2,10 +2,7 @@ import * as React from 'react';
 import Image from 'next/image';
 import Carousel from 'react-bootstrap/Carousel';
 
-
-
 interface CarouselComponentProps {
-
 }
 
 const CarouselComponent: React.FC<CarouselComponentProps> = ({ }) => {
@@ -19,8 +16,7 @@ const CarouselComponent: React.FC<CarouselComponentProps> = ({ }) => {
     return (
         <Carousel activeIndex={index} onSelect={handleSelect}>
             <Carousel.Item>
-
-                <Image src={require('../../public/assets/img/home/1.png')} alt='' className='full-img' />
+                <Image src={require('../../public/assets/img/home/home.png')} alt='' className='full-img' />
                 {
                     false &&
                     <Carousel.Caption>
@@ -30,10 +26,10 @@ const CarouselComponent: React.FC<CarouselComponentProps> = ({ }) => {
                 }
             </Carousel.Item>
             <Carousel.Item>
-                <Image src={require('../../public/assets/img/home/1.png')} alt='' className='full-img' />
+                <Image src={require('../../public/assets/img/home/home.png')} alt='' className='full-img' />
             </Carousel.Item>
             <Carousel.Item>
-                <Image src={require('../../public/assets/img/home/1.png')} alt='' className='full-img' />
+                <Image src={require('../../public/assets/img/home/home.png')} alt='' className='full-img' />
             </Carousel.Item>
         </Carousel>
     );

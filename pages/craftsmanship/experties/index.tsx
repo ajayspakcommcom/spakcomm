@@ -26,7 +26,7 @@ const Index: React.FC<SeoData> = ({ pageTitle, description, keywords, author }) 
             <SEO pageTitle={pageTitle} description={description} keywords={keywords} author={author} />
             <Header />
             <Wrapper>
-                <OtherHeader img='origin.png' heading='Experties' paragraph='Mastering skills for exceptional outcomes' />
+                <OtherHeader img='expertise.png' heading='Experties' paragraph='Mastering skills for exceptional outcomes' />
                 <Container>
                     <p className='text-justify'>This showcases a spectrum of mastered skills and deep knowledge that set the foundation for exceptional outcomes. It’s a testament to our commitment to excellence, highlighting our proficiency in various domains from creative design to technological innovation. This space is dedicated to demonstrating how our specialized skills translate into tangible success for our clients and projects.</p>
                 </Container>

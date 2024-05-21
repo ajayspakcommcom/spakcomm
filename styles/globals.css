@@ -103,10 +103,9 @@ p {
 
 .footer {
   background-color: #0054A6;
-  /* Replace with the exact color code you want */
   color: white;
   font-family: 'Arial', sans-serif;
-  /* Replace with the font used in the design */
+  margin-top: 30px;
 }
 
 .footer h5,
@@ -667,6 +666,7 @@ p {
 
 .full-img {
   width: 100%;
+  object-fit: cover;
 }
 
 .text-justify {

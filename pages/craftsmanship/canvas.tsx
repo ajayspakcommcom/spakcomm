@@ -33,7 +33,7 @@ const Index: React.FC<SeoData> = ({ pageTitle, description, keywords, author }) 
             <SEO pageTitle={pageTitle} description={description} keywords={keywords} author={author} />
             <Header />
             <Wrapper>
-                <OtherHeader img='origin.png' heading='Canvas' paragraph='The heart & purpose of Spakcomm' />
+                <OtherHeader img='canvas.png' heading='Canvas' paragraph='The heart & purpose of Spakcomm' />
                 <Container>
                     <p className='text-justify'>In the energetic alleys of Mumbai, a dream took form in 2008, a vision that promised to transform the face of branding and creative communication. Spakcomm was not just founded; it was carefully crafted from a vision that sought to blend artistry with purpose, innovation with tradition. The seedling of passion planted in a modest apartment sprouted into a thriving ecosystem where ideas flourish, narratives are woven, and brands find their true essence. The birth of Spakcomm was a testament to the conviction that branding could be a poetic venture, where each creation sings its own song, echoing the vibrant hues and dynamic pulse of its birthplace.</p>
                     <ImageLightGallery galleryImgData={galleyData} />
