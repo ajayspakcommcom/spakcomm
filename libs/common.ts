@@ -29,3 +29,17 @@ export enum ProjectSubCategory {
     COASTER = 'coaster',
     VA = 'visual aid'
 }
+
+export function logEnumValues(enumObject: any) {
+    for (const [key, value] of Object.entries(enumObject)) {
+        console.log(`${key}: ${value}`);
+    }
+}
+
+export function getEnumProperty(enumObject: any): { key: string; value: string }[] {
+    const enumProperties: { key: string; value: string }[] = [];
+    for (const [key, value] of Object.entries(enumObject)) {
+        enumProperties.push({ key, value: String(value) });
+    }
+    return enumProperties;
+}
