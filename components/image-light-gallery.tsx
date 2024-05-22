@@ -63,8 +63,10 @@ const ImageLightGallery: React.FC<ImageLightGalleryProps> = ({ galleryImgData })
               <img alt={item.title} src={item.imageUrl} className='img-responsive' />
             </a>
           ))}
-
         </LightGallery>
+
+        {data.length < 1 && <div className='image-gallery-no-data'><p>No Data Found</p></div>}
+
       </div>
     </>
   )
