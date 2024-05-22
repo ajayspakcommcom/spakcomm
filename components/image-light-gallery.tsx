@@ -9,10 +9,12 @@ import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import lgZoom from 'lightgallery/plugins/zoom';
 
 interface galleryImg {
-  id: number;
-  imageUrl: string;
-  title: string;
-  category: string;
+  id?: number;
+  imageUrl?: string;
+  title?: string;
+  client?: string;
+  category?: string;
+  subCategory?: string;
 }
 
 interface ImageLightGalleryProps {

@@ -1,3 +1,10 @@
+
+export enum CLIENTS {
+    BSV = 'bsv',
+    BI = 'bi',
+    AVC = 'avc'
+}
+
 export enum ProjectCategory {
     Pharma = 'pharma',
     Hotel = 'hotel',
@@ -14,5 +21,11 @@ export enum ProjectSubCategory {
     THANK_YOU_CARD = 'thank you card',
     STALL = 'stall',
     STANDEE = 'standee',
-    FOLDER = 'folder'
+    FOLDER = 'folder',
+    CERTIFICATE = 'certificate',
+    OTHER = 'other',
+    ASSURED_CARD = 'assured card',
+    TENT_CARD = 'tent card',
+    COASTER = 'coaster',
+    VA = 'visual aid'
 }
