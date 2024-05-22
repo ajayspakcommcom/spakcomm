@@ -738,6 +738,15 @@ p {
   column-gap: 15px;
 }
 
+.light-gallery>.lg-react-element>a {
+  margin-bottom: 15px;
+}
+
+.light-gallery>.lg-react-element>a:nth-last-child(-n+4) {
+  margin-bottom: 0px;
+}
+
+
 .img-responsive {
   max-width: 100%;
   height: auto;

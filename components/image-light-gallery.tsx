@@ -16,7 +16,7 @@ interface galleryImg {
 }
 
 interface ImageLightGalleryProps {
-  galleryImgData: galleryImg[];
+  galleryImgData?: galleryImg[];
 }
 
 
@@ -32,8 +32,7 @@ const ImageLightGallery: React.FC<ImageLightGalleryProps> = ({ galleryImgData })
     <>
       <div className="light-gallery">
         <LightGallery onInit={onInit} speed={500} plugins={[lgThumbnail, lgZoom]}>
-
-          {galleryImgData.map((item, index) => (
+          {galleryImgData!.map((item, index) => (
             <a key={item.id} href={item.imageUrl} className='gallery-img'>
               <img alt={item.title} src={item.imageUrl} className='img-responsive' />
             </a>

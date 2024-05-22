@@ -52,11 +52,7 @@ const Home: React.FC<SeoData> = ({ pageTitle, description, keywords, author }) =
             </Col>
             <Col lg={6}>
               <div>
-
-                {/* <Image src={require('../public/assets/img/home/1.png')} alt='' className='full-img' /> */}
-
                 <CarouselComponent />
-
               </div>
             </Col>
           </Row>
